@@ -17,7 +17,17 @@ export {version} from './generated/version';
 
 /**
  * @typedef {*} Any - Synonym for 'any value'.
+ */
+
+/**
  * @typedef {Object<value, valueName, expectedTypeName, foundTypeName, messageSuffix>} TemplateContext
+ * @description Template context used for error message renderers (functions that take a context obj and return a string).
+ * @property value {Any}
+ * @property valueName {String}
+ * @property expectedTypeName {String} - Expected name of constructor of `value`;  E.g., usually `SomeConstructor.name`;
+ * @property foundTypeName {String} - Found types name;  E.g., `FoundConstructor.name`;
+ * @property [messageSuffix=null] {Any} - Message suffix (sometimes an extra hint or instructions for
+ *  directing user to fix where his/her error has occurred).  Optional.
  */
 
 /**

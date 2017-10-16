@@ -44,25 +44,73 @@
 
     <section>
         <article><h1>fjl-errorThrowing</h1><p>=======
-Error throwing helpers.</p>
+Error throwing helpers.  In particular for when a type doesn't match an expected type (or one of one or more types).</p>
 <h2>Install</h2><p><code>npm install elycruz/fjl-errorThrowing</code></p>
 <h2>Methods</h2><ul>
-<li><code>errorIfNotType&lt;contextName, valueName, value, type, messageSuffix=null&gt;</code></li>
-<li><code>errorIfNotTypes&lt;contextName, valueName, value, ...types&gt;</code></li>
-<li><code>getErrorIfNotTypeThrower&lt;messageTmplFunction&gt; : errorIfNotType</code> - Allows you to inject a message template.</li>
-<li><code>getErrorIfNotTypesThrower&lt;messageTmplFunction&gt; : errorIfNotTypes</code> - Allows you to inject a message template.</li>
+<li><code>errorIfNotType&lt;contextName, valueName, value, type, messageSuffix=null&gt; {Undefined}</code> - 
+  Curried.  Throws an error when your <code>value</code> doesn't match given <code>type</code>.</li>
+<li><code>errorIfNotTypes&lt;contextName, valueName, value, ...types&gt; : {Undefined}</code> - 
+  Curried.  Throws an error when your <code>value</code> doesn't match one of the given <code>types</code> passed in.</li>
+<li><code>getErrorIfNotTypeThrower&lt;messageTmplFunction&gt; : errorIfNotType</code> - Gives an <code>errorIfNotType</code> 
+  function (curried version) that uses the passed message template function to generate the error message string.</li>
+<li><code>getErrorIfNotTypesThrower&lt;messageTmplFunction&gt; : errorIfNotTypes</code> - Gives an <code>errorIfNotTypes</code> 
+  function (curried version) that uses the passed message template function to generate the error message string.</li>
 </ul>
-<p><strong>Note</strong>: For un-curried versions access them with trailing '$';  Example <code>errorIfNotType$(...)</code></p>
-<h3>Types:</h3><p>@todo</p>
-<h3>Usage</h3><p>@todo add more extensive usage examples</p>
+<p><strong>Note</strong>: For un-curried versions of the methods above access them with a trailing '$' character;<br>    Example <code>errorIfNotType$(...)</code></p>
+<h2>Docs</h2><p>More extensive docs can be found in './jsdocs' folder.
+Docs will go up somewhere later. @todo</p>
+<h3>Types:</h3><pre class="prettyprint source"><code>// Template Context used by `messageTmplFunction`:
+/**
+ * @typedef {Object&lt;value, valueName, expectedTypeName, foundTypeName, messageSuffix>} TemplateContext
+ * @description Template context used for error message renderers (functions that take a context obj and return a string).
+ * @property value {Any}
+ * @property valueName {String}
+ * @property expectedTypeName {String} - Expected name of constructor of `value`;  E.g., usually `SomeConstructor.name`;
+ * @property foundTypeName {String} - Found types name;  E.g., `FoundConstructor.name`;
+ * @property [messageSuffix=null] {Any} - Message suffix (sometimes an extra hint or instructions for
+ *  directing user to fix where his/her error has occurred).  Optional.
+ */
+/**
+ * Error message template function.
+ * @typedef {Function} errorMessageCall
+ * @param tmplContext {TemplateContext}
+ * @returns {String}
+ */
+/**
+ * Used to ensure value matches passed in type.
+ * @typedef {Function} errorIfNotType
+ * @param valueName {String}
+ * @param value {Any}
+ * @param type {String|Function} - Constructor name or constructor.
+ * @throws {Error} - If value doesn't match type.
+ * @returns {Undefined}
+ */
+/**
+ * Used to ensure a value matches one of one or more types passed in.
+ * @typedef {Function} errorIfNotTypes
+ * @param valueName {String}
+ * @param value {Any}
+ * @param valueTypes {...(String|Function)} - Constructor names or constructors.
+ * @throws {Error} - If value doesn't match type.
+ * @returns {Undefined}
+ */</code></pre><h3>Usage</h3><p>@todo add more extensive usage examples</p>
 <pre class="prettyprint source"><code>import {
-    getErrorIfNotTypeThrower,
-    getErrorIfNotTypesThrower,
+    getErrorIfNotTypeThrower, // For passing your own error string renderer
+    getErrorIfNotTypesThrower, // For passing your own error string renderer
     errorIfNotType,
     errorIfNotTypes
 } from 'fjl-errorThrowing';
 
-@todo examples here</code></pre><h2>Tests</h2><p><code>npm test</code></p>
+const errorIfNotFunction = (valueName, value) => 
+    errorIfNotType('', valueName, value, Function);
+
+function someFunc (fn) {
+    errorIfNotFunction(fn); // Will throw well detailed error if passed in value is not a Function
+    // Do something here ...
+}
+
+someFunc(_ => 1 + 1);  // No error here
+someFunc(99);   // Error here type doesn't match expected type.</code></pre><h2>Tests</h2><p><code>npm test</code></p>
 <h2>Todos:</h2><ul>
 <li>[ ] - Update jsdoc blocks to show proper method signatures.</li>
 <li>[ ] - Add doc blocks to all methods/functions even ones not specified in api.</li>
@@ -77,13 +125,13 @@ Error throwing helpers.</p>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-fjlErrorThrowing.html">fjlErrorThrowing</a></li></ul><h3>Global</h3><ul><li><a href="global.html#version">version</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-fjlErrorThrowing.html">fjlErrorThrowing</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Oct 16 2017 16:44:12 GMT-0400 (Eastern Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Oct 16 2017 17:13:04 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>
