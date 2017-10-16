@@ -15,14 +15,15 @@ import {
 export {version} from './generated/version';
 
 /**
+ * @typedef {*} Any
+ * @typedef {Object<value, valueName, expectedTypeName, foundTypeName>} TemplateContext
+ */
+
+/**
  * Error message template function.
  * @typedef {Function} errorMessageCall
  * @param tmplContext {TemplateContext}
  * @returns {String}
- */
-
-/**
- * @typedef {Object} TemplateContext
  */
 
 /**

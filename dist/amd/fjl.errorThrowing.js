@@ -14,14 +14,15 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
 
 
     /**
+     * @typedef {*} Any
+     * @typedef {Object<value, valueName, expectedTypeName, foundTypeName>} TemplateContext
+     */
+
+    /**
      * Error message template function.
      * @typedef {Function} errorMessageCall
      * @param tmplContext {TemplateContext}
      * @returns {String}
-     */
-
-    /**
-     * @typedef {Object} TemplateContext
      */
 
     /**
