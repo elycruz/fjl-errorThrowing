@@ -64,7 +64,7 @@
     
 
     
-    <h4 class="name" id=".errorIfNotTypes"><span class="type-signature">(static) </span>errorIfNotTypes<span class="signature">(contextName)</span><span class="type-signature"> &rarr; {function|errorIfNotTypes}</span></h4>
+    <h4 class="name" id=".errorIfNotType"><span class="type-signature">(static) </span>errorIfNotType<span class="signature">(contextName, valueName, value, type, messageSuffix<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
     
 
     
@@ -72,11 +72,7 @@
 
 
 <div class="description">
-    Returns a function that can be used to ensure that a value is of one or more given types.
-This function is the same as `getErrorIfNotTypesThrower` except it
-doesn't expect an `errorMessageCall` or template function (uses a default-ly defined one)
-  The returned function is used in cases where informative error messages
-  containing the value types, names, expected type names, are-required/should-be-used etc.
+    Checks that passed in `value` is of given `type`.  Throws an error if valueis not of given `type`.  Curried.
 </div>
 
 
@@ -100,7 +96,11 @@ doesn't expect an `errorMessageCall` or template function (uses a default-ly def
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -125,10 +125,169 @@ doesn't expect an `errorMessageCall` or template function (uses a default-ly def
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Name of context to attribute errors if thrown.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>valueName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">String rep of value.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Any</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Type's name or type itself.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>messageSuffix</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">Optional.</td>
         </tr>
 
     
@@ -169,7 +328,1164 @@ doesn't expect an `errorMessageCall` or template function (uses a default-ly def
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line152">line 152</a>
+        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line166">line 166</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">undefined</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".errorIfNotType$"><span class="type-signature">(static) </span>errorIfNotType$<span class="signature">(contextName, valueName, value, type, messageSuffix<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Checks that passed in `value` is of given `type`.  Throws an error if valueis not of given `type`.  This is the un-curried version.  For the curried versionsee `module:fjlErrorThrowing.errorIfNotType`.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>contextName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Name of context to attribute errors if thrown.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>valueName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">String rep of value.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Any</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Type's name or type itself.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>messageSuffix</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">Optional.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line135">line 135</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">undefined</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".errorIfNotTypes"><span class="type-signature">(static) </span>errorIfNotTypes<span class="signature">(contextName, valueName, value, &hellip;types)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Checks that passed in `value` is of one of the given `types`.  Throws an error if value is not of one of the given `types`.  Curried.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>contextName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Name of context to attribute errors if thrown.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>valueName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">String rep of value.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Any</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>types</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Type's name or type itself.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line180">line 180</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">undefined</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".errorIfNotTypes$"><span class="type-signature">(static) </span>errorIfNotTypes$<span class="signature">(contextName, valueName, value, &hellip;types)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Checks that passed in `value` is of one of the given `types`.  Throws an error if value is not of one of the given `types`.  This is the un-curried version.  For the curried versionsee `module:fjlErrorThrowing.errorIfNotTypes`.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>contextName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Name of context to attribute errors if thrown.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>valueName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">String rep of value.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Any</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>types</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">One or more type names or types themselves.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line151">line 151</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">undefined</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".getErrorIfNotTypesThrower"><span class="type-signature">(static) </span>getErrorIfNotTypesThrower<span class="signature">(errorMessageCall)</span><span class="type-signature"> &rarr; {function|errorIfNotTypes}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Returns a function that can be used to ensure that a value is of one or more given types.  The returned function is used in cases where informative error messages  containing the value types, names, expected type names, are-required/should-be-used etc.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>errorMessageCall</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+|
+
+<span class="param-type">errorMessageCall</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Template function (takes an info-object and returns a printed string).</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line203">line 203</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - Returns a function with the same signature as `errorIfNotTypes` though curried.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">function</span>
+|
+
+<span class="param-type">errorIfNotTypes</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".getErrorIfNotTypesThrower$"><span class="type-signature">(static) </span>getErrorIfNotTypesThrower$<span class="signature">(errorMessageCall)</span><span class="type-signature"> &rarr; {function|errorIfNotTypes}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Gets the error message thrower seeded with passed in errorMessage template call.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>errorMessageCall</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+|
+
+<span class="param-type">errorMessageCall</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line116">line 116</a>
     </li></ul></dd>
     
 
@@ -224,7 +1540,7 @@ doesn't expect an `errorMessageCall` or template function (uses a default-ly def
     
 
     
-    <h4 class="name" id=".errorIfNotType"><span class="type-signature">(static) </span>errorIfNotType<span class="signature">(contextName)</span><span class="type-signature"> &rarr; {function|errorIfNotType}</span></h4>
+    <h4 class="name" id=".getErrorIfNotTypeThrower"><span class="type-signature">(static) </span>getErrorIfNotTypeThrower<span class="signature">(errorMessageCall)</span><span class="type-signature"> &rarr; {function|errorIfNotType}</span></h4>
     
 
     
@@ -232,10 +1548,7 @@ doesn't expect an `errorMessageCall` or template function (uses a default-ly def
 
 
 <div class="description">
-    Returns a function that can be used to ensure that values are of a given type.
-This function is the same as `getErrorIfNotTypeThrower` except it
-doesn't expect and `errorMessageCall` or template function (uses a default-ly defined one)
-  Also throws informative error messages containing the value types, names, expected type names, etc.
+    Returns a function that can be used to ensure that values are of a given type.  Also throws informative error messages containing the value types, names, expected type names,  etc.
 </div>
 
 
@@ -271,13 +1584,16 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
 
         <tr>
             
-                <td class="name"><code>contextName</code></td>
+                <td class="name"><code>errorMessageCall</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">function</span>
+|
+
+<span class="param-type">errorMessageCall</span>
 
 
             
@@ -287,7 +1603,7 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
 
             
 
-            <td class="description last">Name of context to attribute errors if thrown.</td>
+            <td class="description last">Template function (takes an info-object and returns a printed string).</td>
         </tr>
 
     
@@ -328,7 +1644,7 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line140">line 140</a>
+        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line193">line 193</a>
     </li></ul></dd>
     
 
@@ -354,6 +1670,10 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    - Returns a function with the same signature as `errorIfNotType` though curried.
+</div>
+
 
 
 <dl>
@@ -383,7 +1703,7 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
     
 
     
-    <h4 class="name" id=".getErrorIfNotTypesThrower"><span class="type-signature">(static) </span>getErrorIfNotTypesThrower<span class="signature">(contextName, errorMessageCall)</span><span class="type-signature"> &rarr; {function|errorIfNotTypes}</span></h4>
+    <h4 class="name" id=".getErrorIfNotTypeThrower$"><span class="type-signature">(static) </span>getErrorIfNotTypeThrower$<span class="signature">(errorMessageCall)</span><span class="type-signature"> &rarr; {function|errorIfNotType}</span></h4>
     
 
     
@@ -391,9 +1711,7 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
 
 
 <div class="description">
-    Returns a function that can be used to ensure that a value is of one or more given types.
-  The returned function is used in cases where informative error messages
-  containing the value types, names, expected type names, are-required/should-be-used etc.
+    Gets the error message thrower seeded with passed in errorMessage template call.
 </div>
 
 
@@ -429,29 +1747,6 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
 
         <tr>
             
-                <td class="name"><code>contextName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Name of context to attribute errors if thrown.</td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>errorMessageCall</code></td>
             
 
@@ -471,7 +1766,7 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
 
             
 
-            <td class="description last">Template function (takes an info-object and returns a printed string).</td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -512,191 +1807,7 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line118">line 118</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">function</span>
-|
-
-<span class="param-type">errorIfNotTypes</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id=".getErrorIfNotTypeThrower"><span class="type-signature">(static) </span>getErrorIfNotTypeThrower<span class="signature">(contextName, errorMessageCall)</span><span class="type-signature"> &rarr; {function|errorIfNotType}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Returns a function that can be used to ensure that values are of a given type.
-  Also throws informative error messages containing the value types, names, expected type names,
-  etc.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>contextName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Name of context to attribute errors if thrown.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>errorMessageCall</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-|
-
-<span class="param-type">errorMessageCall</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Template function (takes an info-object and returns a printed string).</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line100">line 100</a>
+        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line101">line 101</a>
     </li></ul></dd>
     
 
@@ -907,7 +2018,7 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line29">line 29</a>
+        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line30">line 30</a>
     </li></ul></dd>
     
 
@@ -1166,7 +2277,7 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line39">line 39</a>
+        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line40">line 40</a>
     </li></ul></dd>
     
 
@@ -1348,7 +2459,7 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line22">line 22</a>
+        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line23">line 23</a>
     </li></ul></dd>
     
 
@@ -1401,6 +2512,10 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
 
 
 
+<div class="description">
+    Synonym for 'any value'.
+</div>
+
 
 
     <h5>Type:</h5>
@@ -1446,7 +2561,7 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line17">line 17</a>
+        <a href="fjl.errorThrowing.js.html">fjl.errorThrowing.js</a>, <a href="fjl.errorThrowing.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -1482,7 +2597,7 @@ doesn't expect and `errorMessageCall` or template function (uses a default-ly de
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Oct 15 2017 23:55:02 GMT-0400 (Eastern Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Oct 16 2017 16:44:12 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>
