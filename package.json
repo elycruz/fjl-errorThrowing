@@ -8,6 +8,8 @@
     "test": "tests"
   },
   "scripts": {
+    "build": "gulp clean && gulp build",
+    "build-docs": "gulp jsdoc",
     "test": "mocha tests/*-test.js --plugins babel-plugin-add-module-exports --require babel-register"
   },
   "keywords": [
