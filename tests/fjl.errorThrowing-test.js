@@ -5,15 +5,15 @@ import {
     defaultErrorMessageCall,
     getErrorIfNotTypeThrower,
     getErrorIfNotTypesThrower,
-    errorIfNotTypeThrower,
-    errorIfNotTypesThrower
+    errorIfNotType,
+    errorIfNotTypes
 } from '../src/fjl.errorThrowing';
 
 const log = console.log.bind(console);
 
 describe ('#fjl.errorThrowing', function () {
 
-    describe.skip ('#getTypeName', function () {
+    describe ('#getTypeName', function () {
         it ('should return the type name of the assumed type/type-name passed in', function () {
             expect(getTypeName(String)).to.equal('String');
             expect(getTypeName('String')).to.equal('String');
@@ -25,7 +25,7 @@ describe ('#fjl.errorThrowing', function () {
         });
     });
 
-    describe.skip ('#multiTypesToString', function () {
+    describe ('#multiTypesToString', function () {
         it ('should return all types/type-names in passed in array surrounded by ' +
             'back-tick characters in a string', function () {
             const
@@ -61,7 +61,7 @@ describe ('#fjl.errorThrowing', function () {
         });
     });
 
-    describe.skip ('#defaultErrorMessageCall', function () {
+    describe ('#defaultErrorMessageCall', function () {
         it ('should return a string when receiving a value', function () {
             expect(typeof defaultErrorMessageCall(0)).to.equal('string');
         });
@@ -86,22 +86,21 @@ describe ('#fjl.errorThrowing', function () {
     });
 
     describe ('#getErrorIfNotTypeThrower', function () {
-        it ('should return a function with an arity of `3`', function () {
-            const result = getErrorIfNotTypeThrower('SomeContext', defaultErrorMessageCall);
+        it ('should return a function', function () {
+            const result = getErrorIfNotTypeThrower(defaultErrorMessageCall)('SomeContext');
             expect(result).to.be.instanceOf(Function);
-            expect(result.length).to.equal(3);
         });
         it ('It\'s returned function should throw an error when not able to match' +
             'value to passed in type', function () {
             assert.throws(
-                _ => getErrorIfNotTypeThrower('SomeContext',  defaultErrorMessageCall)(
+                _ => getErrorIfNotTypeThrower(defaultErrorMessageCall)('SomeContext')(
                     'someValueName', 'someValue', Array
                 ), Error
             );
         });
         it ('It\'s returned function should not throw an error when passed in value ' +
             'matches passed in type', function () {
-            expect(getErrorIfNotTypeThrower('SomeContext', defaultErrorMessageCall)(
+            expect(getErrorIfNotTypeThrower(defaultErrorMessageCall)('SomeContext')(
                     'someValueName', 'someValue'.split(''), Array
                 )
             ).to.equal(undefined); // should return undefined
@@ -109,65 +108,62 @@ describe ('#fjl.errorThrowing', function () {
     });
 
     describe ('#getErrorIfNotTypesThrower', function () {
-        it ('should return a function with an arity of `2`', function () {
-            const result = getErrorIfNotTypesThrower('SomeContext', defaultErrorMessageCall);
+        it ('should return a function', function () {
+            const result = getErrorIfNotTypesThrower(defaultErrorMessageCall)('SomeContext');
             expect(result).to.be.instanceOf(Function);
-            expect(result.length).to.equal(2);
         });
         it ('It\'s returned function should throw an error when not able to match' +
             'value to passed in type', function () {
             assert.throws(
-                _ => getErrorIfNotTypesThrower('SomeContext',  defaultErrorMessageCall)(
+                _ => getErrorIfNotTypesThrower(defaultErrorMessageCall)('SomeContext')(
                     'someValueName', 'someValue', Array, Function, Boolean
                 ), Error);
         });
         it ('It\'s returned function should not throw an error when passed in value ' +
             'matches passed in type', function () {
-            expect(getErrorIfNotTypesThrower('SomeContext', defaultErrorMessageCall)(
+            expect(getErrorIfNotTypesThrower(defaultErrorMessageCall)('SomeContext')(
                 'someValueName', 'someValue'.split(''), Function, Array, Boolean
             )).to.equal(undefined); // should return undefined
         });
     });
 
-    describe ('#errorIfNotTypeThrower', function () {
-        it ('should return a function with an arity of `3`', function () {
-            const result = errorIfNotTypeThrower('SomeContext');
+    describe ('#errorIfNotType', function () {
+        it ('should return a function', function () {
+            const result = errorIfNotType('SomeContext');
             expect(result).to.be.instanceOf(Function);
-            expect(result.length).to.equal(3);
         });
         it ('It\'s returned function should throw an error when not able to match' +
             'value to passed in type', function () {
             assert.throws(
-                _ => errorIfNotTypeThrower('SomeContext')(
+                _ => errorIfNotType('SomeContext')(
                     'someValueName', 'someValue', Array
                 ), Error
             );
         });
         it ('It\'s returned function should not throw an error when passed in value ' +
             'matches passed in type', function () {
-            expect(errorIfNotTypeThrower('SomeContext')(
+            expect(errorIfNotType('SomeContext')(
                 'someValueName', 'someValue'.split(''), Array
                 )
             ).to.equal(undefined); // should return undefined
         });
     });
 
-    describe ('#errorIfNotTypesThrower', function () {
-        it ('should return a function with an arity of `2`', function () {
-            const result = errorIfNotTypesThrower('SomeContext');
+    describe ('#errorIfNotTypes', function () {
+        it ('should return a function', function () {
+            const result = errorIfNotTypes('SomeContext');
             expect(result).to.be.instanceOf(Function);
-            expect(result.length).to.equal(2);
         });
         it ('It\'s returned function should throw an error when not able to match' +
             'value to passed in type', function () {
             assert.throws(
-                _ => errorIfNotTypesThrower('SomeContext')(
+                _ => errorIfNotTypes('SomeContext')(
                     'someValueName', 'someValue', Array, Function, Boolean
                 ), Error);
         });
         it ('It\'s returned function should not throw an error when passed in value ' +
             'matches passed in type', function () {
-            expect(errorIfNotTypesThrower('SomeContext')(
+            expect(errorIfNotTypes('SomeContext')(
                 'someValueName', 'someValue'.split(''), Function, Array, Boolean
             )).to.equal(undefined); // should return undefined
         });

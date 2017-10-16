@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.errorIfNotTypesThrower = exports.errorIfNotTypeThrower = exports.getErrorIfNotTypesThrower = exports.getErrorIfNotTypeThrower = exports.version = undefined;
+exports.getErrorIfNotTypesThrower = exports.getErrorIfNotTypeThrower = exports.errorIfNotTypes = exports.errorIfNotType = exports.errorIfNotTypes$ = exports.errorIfNotType$ = exports.getErrorIfNotTypesThrower$ = exports.getErrorIfNotTypeThrower$ = exports.defaultErrorMessageCall = exports.multiTypesToString = exports.getTypeName = exports.version = undefined;
 
 var _version = require('./generated/version');
 
@@ -58,7 +58,7 @@ var
  * @returns {String}
  * @private
  */
-getTypeName = function getTypeName(type) {
+getTypeName = exports.getTypeName = function getTypeName(type) {
     if ((0, _fjl.isString)(type)) {
         return type;
     } else if ((0, _fjl.isFunction)(type)) {
@@ -77,7 +77,7 @@ getTypeName = function getTypeName(type) {
  * @return {String}
  * @private
  */
-multiTypesToString = function multiTypesToString(types) {
+multiTypesToString = exports.multiTypesToString = function multiTypesToString(types) {
     return (0, _fjl.length)(types) ? (0, _fjl.intercalate)(', ', (0, _fjl.map)(function (type) {
         return '`' + getTypeName(type) + '`';
     }, types)) : '';
@@ -92,7 +92,7 @@ multiTypesToString = function multiTypesToString(types) {
  * @returns {string}
  * @private
  */
-defaultErrorMessageCall = function defaultErrorMessageCall(tmplContext) {
+defaultErrorMessageCall = exports.defaultErrorMessageCall = function defaultErrorMessageCall(tmplContext) {
     var contextName = tmplContext.contextName,
         valueName = tmplContext.valueName,
         value = tmplContext.value,
@@ -105,20 +105,9 @@ defaultErrorMessageCall = function defaultErrorMessageCall(tmplContext) {
 
     return (contextName ? '`' + contextName + '.' : '`') + (valueName + '` is not ' + typesCopy + ': ' + typesToMatchCopy + '.  ') + ('Type received: ' + foundTypeName + '.  Value: ' + value + ';') + ('' + (messageSuffix ? '  ' + messageSuffix + ';' : ''));
 },
-
-
-/**
- * Returns a function that can be used to ensure that values are of a given type.
- *   Also throws informative error messages containing the value types, names, expected type names,
- *   etc.
- * @function module:fjlErrorThrowing.getErrorIfNotTypeThrower
- * @param contextName {String} - Name of context to attribute errors if thrown.
- * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
- * @returns {Function|errorIfNotType}
- */
-getErrorIfNotTypeThrower = function getErrorIfNotTypeThrower(contextName, errorMessageCall) {
-    return function (valueName, value, ValueType) {
-        var messageSuffix = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+    getErrorIfNotTypeThrower$ = exports.getErrorIfNotTypeThrower$ = function getErrorIfNotTypeThrower$(errorMessageCall) {
+    return function (contextName, valueName, value, ValueType) {
+        var messageSuffix = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
 
         var expectedTypeName = getTypeName(ValueType),
             foundTypeName = (0, _fjl.typeOf)(value);
@@ -128,21 +117,10 @@ getErrorIfNotTypeThrower = function getErrorIfNotTypeThrower(contextName, errorM
         throw new Error(errorMessageCall({ contextName: contextName, valueName: valueName, value: value, expectedTypeName: expectedTypeName, foundTypeName: foundTypeName, messageSuffix: messageSuffix }));
     };
 },
-
-
-/**
- * Returns a function that can be used to ensure that a value is of one or more given types.
- *   The returned function is used in cases where informative error messages
- *   containing the value types, names, expected type names, are-required/should-be-used etc.
- * @function module:fjlErrorThrowing.getErrorIfNotTypesThrower
- * @param contextName {String} - Name of context to attribute errors if thrown.
- * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
- * @returns {Function|errorIfNotTypes}
- */
-getErrorIfNotTypesThrower = function getErrorIfNotTypesThrower(contextName, errorMessageCall) {
-    return function (valueName, value) {
-        for (var _len = arguments.length, valueTypes = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-            valueTypes[_key - 2] = arguments[_key];
+    getErrorIfNotTypesThrower$ = exports.getErrorIfNotTypesThrower$ = function getErrorIfNotTypesThrower$(errorMessageCall) {
+    return function (contextName, valueName, value) {
+        for (var _len = arguments.length, valueTypes = Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
+            valueTypes[_key - 3] = arguments[_key];
         }
 
         var expectedTypeNames = valueTypes.map(getTypeName),
@@ -159,6 +137,8 @@ getErrorIfNotTypesThrower = function getErrorIfNotTypesThrower(contextName, erro
         }));
     };
 },
+    errorIfNotType$ = exports.errorIfNotType$ = getErrorIfNotTypeThrower$(defaultErrorMessageCall),
+    errorIfNotTypes$ = exports.errorIfNotTypes$ = getErrorIfNotTypesThrower$(defaultErrorMessageCall),
 
 
 /**
@@ -166,13 +146,11 @@ getErrorIfNotTypesThrower = function getErrorIfNotTypesThrower(contextName, erro
  * This function is the same as `getErrorIfNotTypeThrower` except it
  * doesn't expect and `errorMessageCall` or template function (uses a default-ly defined one)
  *   Also throws informative error messages containing the value types, names, expected type names, etc.
- * @function module:fjlErrorThrowing.errorIfNotTypeThrower
+ * @function module:fjlErrorThrowing.errorIfNotType
  * @param contextName {String} - Name of context to attribute errors if thrown.
  * @returns {Function|errorIfNotType}
  */
-errorIfNotTypeThrower = function errorIfNotTypeThrower(contextName) {
-    return getErrorIfNotTypeThrower(contextName, defaultErrorMessageCall);
-},
+errorIfNotType = exports.errorIfNotType = (0, _fjl.curry)(errorIfNotType$),
 
 
 /**
@@ -181,15 +159,34 @@ errorIfNotTypeThrower = function errorIfNotTypeThrower(contextName) {
  * doesn't expect an `errorMessageCall` or template function (uses a default-ly defined one)
  *   The returned function is used in cases where informative error messages
  *   containing the value types, names, expected type names, are-required/should-be-used etc.
- * @function module:fjlErrorThrowing.errorIfNotTypesThrower
+ * @function module:fjlErrorThrowing.errorIfNotTypes
  * @param contextName {String} - Name of context to attribute errors if thrown.
  * @returns {Function|errorIfNotTypes}
  */
-errorIfNotTypesThrower = function errorIfNotTypesThrower(contextName) {
-    return getErrorIfNotTypesThrower(contextName, defaultErrorMessageCall);
-};
+errorIfNotTypes = exports.errorIfNotTypes = (0, _fjl.curry4)(errorIfNotTypes$),
 
-exports.getErrorIfNotTypeThrower = getErrorIfNotTypeThrower;
-exports.getErrorIfNotTypesThrower = getErrorIfNotTypesThrower;
-exports.errorIfNotTypeThrower = errorIfNotTypeThrower;
-exports.errorIfNotTypesThrower = errorIfNotTypesThrower;
+
+/**
+ * Returns a function that can be used to ensure that values are of a given type.
+ *   Also throws informative error messages containing the value types, names, expected type names,
+ *   etc.
+ * @function module:fjlErrorThrowing.getErrorIfNotTypeThrower
+ * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
+ * @returns {Function|errorIfNotType}
+ */
+getErrorIfNotTypeThrower = exports.getErrorIfNotTypeThrower = function getErrorIfNotTypeThrower(errorMessageCall) {
+    return (0, _fjl.curry)(getErrorIfNotTypeThrower$(errorMessageCall));
+},
+
+
+/**
+ * Returns a function that can be used to ensure that a value is of one or more given types.
+ *   The returned function is used in cases where informative error messages
+ *   containing the value types, names, expected type names, are-required/should-be-used etc.
+ * @function module:fjlErrorThrowing.getErrorIfNotTypesThrower
+ * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
+ * @returns {Function|errorIfNotTypes}
+ */
+getErrorIfNotTypesThrower = exports.getErrorIfNotTypesThrower = function getErrorIfNotTypesThrower(errorMessageCall) {
+    return (0, _fjl.curry4)(getErrorIfNotTypesThrower$(errorMessageCall));
+};

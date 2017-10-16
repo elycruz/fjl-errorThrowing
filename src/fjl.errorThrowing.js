@@ -5,7 +5,8 @@ import {
     typeOf,
     _isType as isType,
     map, length, intercalate,
-    isString, isArray, isFunction
+    isString, isArray, isFunction,
+    curry, curry4
 } from 'fjl';
 
 /**
@@ -46,7 +47,7 @@ export {version} from './generated/version';
  * @returns {Undefined}
  */
 
-const
+export const
 
     /**
      * Resolves/normalizes a type name from either a string or a constructor.
@@ -97,16 +98,7 @@ const
             `${messageSuffix ?  '  ' + messageSuffix + ';' : ''}`;
     },
 
-    /**
-     * Returns a function that can be used to ensure that values are of a given type.
-     *   Also throws informative error messages containing the value types, names, expected type names,
-     *   etc.
-     * @function module:fjlErrorThrowing.getErrorIfNotTypeThrower
-     * @param contextName {String} - Name of context to attribute errors if thrown.
-     * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
-     * @returns {Function|errorIfNotType}
-     */
-    getErrorIfNotTypeThrower = (contextName, errorMessageCall) => (valueName, value, ValueType, messageSuffix = null) => {
+    getErrorIfNotTypeThrower$ = errorMessageCall => (contextName, valueName, value, ValueType, messageSuffix = null) => {
         const expectedTypeName = getTypeName(ValueType),
             foundTypeName = typeOf(value);
         if (isType(expectedTypeName, value)) { return; }
@@ -115,16 +107,7 @@ const
         ));
     },
 
-    /**
-     * Returns a function that can be used to ensure that a value is of one or more given types.
-     *   The returned function is used in cases where informative error messages
-     *   containing the value types, names, expected type names, are-required/should-be-used etc.
-     * @function module:fjlErrorThrowing.getErrorIfNotTypesThrower
-     * @param contextName {String} - Name of context to attribute errors if thrown.
-     * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
-     * @returns {Function|errorIfNotTypes}
-     */
-    getErrorIfNotTypesThrower = (contextName, errorMessageCall) => (valueName, value, ...valueTypes) => {
+    getErrorIfNotTypesThrower$ = errorMessageCall => (contextName, valueName, value, ...valueTypes) => {
         const expectedTypeNames = valueTypes.map(getTypeName),
             matchFound = expectedTypeNames.some(ValueType => isType(ValueType, value)),
             foundTypeName = typeOf(value);
@@ -137,17 +120,20 @@ const
         );
     },
 
+    errorIfNotType$ = getErrorIfNotTypeThrower$(defaultErrorMessageCall),
+
+    errorIfNotTypes$ = getErrorIfNotTypesThrower$(defaultErrorMessageCall),
+
     /**
      * Returns a function that can be used to ensure that values are of a given type.
      * This function is the same as `getErrorIfNotTypeThrower` except it
      * doesn't expect and `errorMessageCall` or template function (uses a default-ly defined one)
      *   Also throws informative error messages containing the value types, names, expected type names, etc.
-     * @function module:fjlErrorThrowing.errorIfNotTypeThrower
+     * @function module:fjlErrorThrowing.errorIfNotType
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @returns {Function|errorIfNotType}
      */
-    errorIfNotTypeThrower = contextName =>
-        getErrorIfNotTypeThrower(contextName, defaultErrorMessageCall),
+    errorIfNotType = curry(errorIfNotType$),
 
     /**
      * Returns a function that can be used to ensure that a value is of one or more given types.
@@ -155,16 +141,29 @@ const
      * doesn't expect an `errorMessageCall` or template function (uses a default-ly defined one)
      *   The returned function is used in cases where informative error messages
      *   containing the value types, names, expected type names, are-required/should-be-used etc.
-     * @function module:fjlErrorThrowing.errorIfNotTypesThrower
+     * @function module:fjlErrorThrowing.errorIfNotTypes
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @returns {Function|errorIfNotTypes}
      */
-    errorIfNotTypesThrower = contextName =>
-        getErrorIfNotTypesThrower(contextName, defaultErrorMessageCall);
+    errorIfNotTypes = curry4(errorIfNotTypes$),
 
-export {
-    getErrorIfNotTypeThrower,
-    getErrorIfNotTypesThrower,
-    errorIfNotTypeThrower,
-    errorIfNotTypesThrower
-};
+    /**
+     * Returns a function that can be used to ensure that values are of a given type.
+     *   Also throws informative error messages containing the value types, names, expected type names,
+     *   etc.
+     * @function module:fjlErrorThrowing.getErrorIfNotTypeThrower
+     * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
+     * @returns {Function|errorIfNotType}
+     */
+    getErrorIfNotTypeThrower = errorMessageCall => curry(getErrorIfNotTypeThrower$(errorMessageCall)),
+
+    /**
+     * Returns a function that can be used to ensure that a value is of one or more given types.
+     *   The returned function is used in cases where informative error messages
+     *   containing the value types, names, expected type names, are-required/should-be-used etc.
+     * @function module:fjlErrorThrowing.getErrorIfNotTypesThrower
+     * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
+     * @returns {Function|errorIfNotTypes}
+     */
+    getErrorIfNotTypesThrower = errorMessageCall => curry4(getErrorIfNotTypesThrower$(errorMessageCall))
+;

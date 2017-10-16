@@ -170,11 +170,11 @@ const
      * This function is the same as `getErrorIfNotTypeThrower` except it
      * doesn't expect and `errorMessageCall` or template function (uses a default-ly defined one)
      *   Also throws informative error messages containing the value types, names, expected type names, etc.
-     * @function module:fjlErrorThrowing.errorIfNotTypeThrower
+     * @function module:fjlErrorThrowing.errorIfNotType
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @returns {Function|errorIfNotType}
      */
-    errorIfNotTypeThrower = contextName =>
+    errorIfNotType = contextName =>
         getErrorIfNotTypeThrower(contextName, defaultErrorMessageCall),
 
     /**
@@ -183,18 +183,18 @@ const
      * doesn't expect an `errorMessageCall` or template function (uses a default-ly defined one)
      *   The returned function is used in cases where informative error messages
      *   containing the value types, names, expected type names, are-required/should-be-used etc.
-     * @function module:fjlErrorThrowing.errorIfNotTypesThrower
+     * @function module:fjlErrorThrowing.errorIfNotTypes
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @returns {Function|errorIfNotTypes}
      */
-    errorIfNotTypesThrower = contextName =>
+    errorIfNotTypes = contextName =>
         getErrorIfNotTypesThrower(contextName, defaultErrorMessageCall);
 
 export {
     getErrorIfNotTypeThrower,
     getErrorIfNotTypesThrower,
-    errorIfNotTypeThrower,
-    errorIfNotTypesThrower
+    errorIfNotType,
+    errorIfNotTypes
 };
 </code></pre>
         </article>
