@@ -1,0 +1,49 @@
+{
+  "name": "fjl-errorThrowing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/cjs/fjl-errorThrowing.js",
+  "module": "dist/es6-module/fjl-errorThrowing.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha tests/*-test.js --plugins babel-plugin-add-module-exports --require babel-register"
+  },
+  "keywords": [
+    "error-throwing",
+    "functional",
+    "error-handling"
+  ],
+  "author": "Ely De La Cruz <elycruz@elycruz.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "chalk": "^2.1.0",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.0",
+    "gulp-better-rollup": "^1.1.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-eslint": "^4.0.0",
+    "gulp-fncallback": "^2.0.2",
+    "gulp-header": "^1.8.9",
+    "gulp-jsdoc3": "^1.0.1",
+    "gulp-mocha": "^4.3.1",
+    "gulp-uglify": "^3.0.0",
+    "lazypipe": "^1.0.1",
+    "mocha": "^4.0.1",
+    "rollup": "^0.50.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "yargs": "^9.0.1"
+  },
+  "dependencies": {
+    "fjl": "^0.17.7"
+  }
+}
