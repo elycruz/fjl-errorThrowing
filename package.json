@@ -1,6 +1,6 @@
 {
-  "name": "fjl-errorThrowing",
-  "version": "0.5.0",
+  "name": "fjl-error-throwing",
+  "version": "0.5.1",
   "description": "Error throwing helpers for quickly throwing errors when a value doesn't match a type.",
   "main": "dist/cjs/fjl.errorThrowing.js",
   "module": "dist/es6-module/fjl.errorThrowing.js",
@@ -50,10 +50,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/elycruz/fjl-errorThrowing.git"
+    "url": "git+https://github.com/elycruz/fjl-error-throwing.git"
   },
   "bugs": {
-    "url": "https://github.com/elycruz/fjl-errorThrowing/issues"
+    "url": "https://github.com/elycruz/fjl-error-throwing/issues"
   },
-  "homepage": "https://github.com/elycruz/fjl-errorThrowing#readme"
+  "homepage": "https://github.com/elycruz/fjl-error-throwing#readme"
 }
