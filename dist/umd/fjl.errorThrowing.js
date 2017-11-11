@@ -23,62 +23,27 @@
             return _version.version;
         }
     });
-
-
-    /**
-     * @typedef {*} Any - Synonym for 'any value'.
-     */
+    var
 
     /**
-     * @typedef {Object<value, valueName, expectedTypeName, foundTypeName, messageSuffix>} TemplateContext
-     * @description Template context used for error message renderers (functions that take a context obj and return a string).
-     * @property value {Any}
-     * @property valueName {String}
-     * @property expectedTypeName {String} - Expected name of constructor of `value`;  E.g., usually `SomeConstructor.name`;
-     * @property foundTypeName {String} - Found types name;  E.g., `FoundConstructor.name`;
-     * @property [messageSuffix=null] {Any} - Message suffix (sometimes an extra hint or instructions for
-     *  directing user to fix where his/her error has occurred).  Optional.
-     */
-
-    /**
-     * Checks whether a value is of given type.
-     * @typedef {Function} TypeChecker
-     * @param Type {Function|String} - a Type constructor or it's name.
-     * @param value {Any} - Any value.
+     * Checks if `type` is a string or a function (constructor or constructor name)
+     * @function module:fjlErrorThrowing.isCheckableType
+     * @param type {Type|String|Function}
      * @returns {Boolean}
      */
-
-    /**
-     * Error message template function.
-     * @typedef {Function} errorMessageCall
-     * @param tmplContext {TemplateContext}
-     * @returns {String}
-     */
-
-    /**
-     * Used to ensure value matches passed in type.
-     * @typedef {Function} errorIfNotType
-     * @param valueName {String}
-     * @param value {Any}
-     * @param type {String|Function} - Constructor name or constructor.
-     * @throws {Error} - If value doesn't match type.
-     * @returns {Undefined}
-     */
-
-    /**
-     * Used to ensure a value matches one of one or more types passed in.
-     * @typedef {Function} errorIfNotTypes
-     * @param valueName {String}
-     * @param value {Any}
-     * @param valueTypes {...(String|Function)} - Constructor names or constructors.
-     * @throws {Error} - If value doesn't match type.
-     * @returns {Undefined}
-     */
-
-    var isCheckableType = exports.isCheckableType = function isCheckableType(type) {
+    isCheckableType = exports.isCheckableType = function isCheckableType(type) {
         return (0, _fjl.isString)(type) || (0, _fjl.isFunction)(type);
     },
-        errorIfNotCheckableType = exports.errorIfNotCheckableType = function errorIfNotCheckableType(contextName, type) {
+
+
+    /**
+     * Throws an error if `type` is not a checkable type (can't be checked by the `TypeChecker` type)
+     * @function module:fjlErrorThrowing.errorIfNotCheckableType
+     * @param contextName {String}
+     * @param type {Type|String|Function}
+     * @returns {Type} - Type passed in if `type` is checkable
+     */
+    errorIfNotCheckableType = exports.errorIfNotCheckableType = function errorIfNotCheckableType(contextName, type) {
         if (!isCheckableType(type)) {
             throw new Error(contextName + ' expects Types to be checked against to be of type `String` or `Function`.' + ('  Type received `' + (0, _fjl.typeOf)(type) + '`.  Value `' + type + '`.'));
         }
@@ -102,7 +67,7 @@
     /**
      * Returns a boolean indicating whether given value matches given type.
      * @function module:fjlErrorThrowing.defaultTypeChecker$
-     * @param Type {String|Function|Class} - Type name, constructor and/or class.
+     * @param Type {String|Function} - Type name, constructor and/or class.
      * @param value {*}
      * @returns {Boolean}
      */
@@ -153,9 +118,9 @@
     /**
      * Gets the error message thrower seeded with passed in errorMessage template call.
      * @function module:fjlErrorThrowing.getErrorIfNotTypeThrower$
-     * @param errorMessageCall {Function|errorMessageCall}
-     * @param typeChecker {TypeChecker|Function} - Function<Type, value>:Boolean
-     * @returns {Function|errorIfNotType}
+     * @param errorMessageCall {Function|ErrorMessageCall}
+     * @param typeChecker {Function|TypeChecker} - Function<Type, value>:Boolean
+     * @returns {Function|ErrorIfNotType}
      */
     getErrorIfNotTypeThrower$ = exports.getErrorIfNotTypeThrower$ = function getErrorIfNotTypeThrower$(errorMessageCall) {
         var typeChecker = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultTypeChecker$;
@@ -175,9 +140,9 @@
     /**
      * Gets the error message thrower seeded with passed in errorMessage template call.
      * @function module:fjlErrorThrowing.getErrorIfNotTypesThrower$
-     * @param errorMessageCall {Function|errorMessageCall}
-     * @param typeChecker {TypeChecker|Function} - Function<Type, value>:Boolean
-     * @returns {Function|errorIfNotTypes}
+     * @param errorMessageCall {Function|ErrorMessageCall}
+     * @param typeChecker {Function|TypeChecker} - Function<Type, value>:Boolean
+     * @returns {Function|ErrorIfNotTypes}
      */
     getErrorIfNotTypesThrower$ = exports.getErrorIfNotTypesThrower$ = function getErrorIfNotTypesThrower$(errorMessageCall) {
         var typeChecker = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultTypeChecker$;
@@ -235,7 +200,7 @@
      *  "Returns a boolean indicating whether given value matches given type".
      * @curried
      * @function module:fjlErrorThrowing.defaultTypeChecker
-     * @param Type {String|Function|Class} - Type name, constructor and/or class.
+     * @param Type {String|Function} - Type name, constructor and/or class.
      * @param value {*}
      * @returns {Boolean}
      */
@@ -277,7 +242,7 @@
      *   etc.
      * @function module:fjlErrorThrowing.getErrorIfNotTypeThrower
      * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
-     * @returns {Function|errorIfNotType} - Returns a function with the same signature as `errorIfNotType` though curried.
+     * @returns {Function|ErrorIfNotType} - Returns a function with the same signature as `errorIfNotType` though curried.
      */
     getErrorIfNotTypeThrower = exports.getErrorIfNotTypeThrower = function getErrorIfNotTypeThrower(errorMessageCall) {
         return (0, _fjl.curry)(getErrorIfNotTypeThrower$(errorMessageCall));
@@ -290,7 +255,7 @@
      *   containing the value types, names, expected type names, are-required/should-be-used etc.
      * @function module:fjlErrorThrowing.getErrorIfNotTypesThrower
      * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
-     * @returns {Function|errorIfNotTypes} - Returns a function with the same signature as `errorIfNotTypes` though curried.
+     * @returns {Function|ErrorIfNotTypes} - Returns a function with the same signature as `errorIfNotTypes` though curried.
      */
     getErrorIfNotTypesThrower = exports.getErrorIfNotTypesThrower = function getErrorIfNotTypesThrower(errorMessageCall) {
         return (0, _fjl.curry4)(getErrorIfNotTypesThrower$(errorMessageCall));
