@@ -4,7 +4,7 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    exports.getErrorIfNotTypesThrower = exports.getErrorIfNotTypeThrower = exports.errorIfNotTypes = exports.errorIfNotType = exports.errorIfNotTypes$ = exports.errorIfNotType$ = exports.getErrorIfNotTypesThrower$ = exports.getErrorIfNotTypeThrower$ = exports.defaultErrorMessageCall = exports.multiTypesToString = exports.getTypeName = exports.version = undefined;
+    exports.getErrorIfNotTypesThrower = exports.getErrorIfNotTypeThrower = exports.errorIfNotTypes = exports.errorIfNotType = exports.defaultTypeChecker = exports.errorIfNotTypes$ = exports.errorIfNotType$ = exports.getErrorIfNotTypesThrower$ = exports.getErrorIfNotTypeThrower$ = exports.defaultErrorMessageCall = exports.multiTypesToString = exports.defaultTypeChecker$ = exports.getTypeName = exports.version = undefined;
     Object.defineProperty(exports, 'version', {
         enumerable: true,
         get: function () {
@@ -76,6 +76,16 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
 
 
     /**
+     * Returns a boolean indicating whether given value matches given type.
+     * @function module:fjlErrorThrowing.defaultTypeChecker$
+     * @param Type {String|Function|Class} - Type name, constructor and/or class.
+     * @param value {*}
+     * @returns {Boolean}
+     */
+    defaultTypeChecker$ = exports.defaultTypeChecker$ = (Type, value) => (0, _fjl._isType)(getTypeName(Type), value) || (0, _fjl.isset)(value) && value instanceof Type,
+
+
+    /**
      * Pretty prints an array of types/type-strings for use by error messages;
      * Outputs "`SomeTypeName`, ..." from [SomeType, 'SomeTypeName', etc...]
      * @private
@@ -113,12 +123,12 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
      * @param errorMessageCall {Function|errorMessageCall}
      * @returns {Function|errorIfNotType}
      */
-    getErrorIfNotTypeThrower$ = exports.getErrorIfNotTypeThrower$ = errorMessageCall => (contextName, valueName, value, ValueType, messageSuffix = null) => {
+    getErrorIfNotTypeThrower$ = exports.getErrorIfNotTypeThrower$ = errorMessageCall => (contextName, valueName, value, ValueType, messageSuffix = null, typeChecker = defaultTypeChecker$) => {
         const expectedTypeName = getTypeName(ValueType),
               foundTypeName = (0, _fjl.typeOf)(value);
-        if ((0, _fjl._isType)(expectedTypeName, value)) {
+        if (typeChecker(ValueType, value)) {
             return;
-        }
+        } // Value matches type
         throw new Error(errorMessageCall({ contextName, valueName, value, expectedTypeName, foundTypeName, messageSuffix }));
     },
 
@@ -176,6 +186,18 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
 
 
     /**
+     * Same as `defaultTypeChecker$` except curried:
+     *  "Returns a boolean indicating whether given value matches given type".
+     * @curried
+     * @function module:fjlErrorThrowing.defaultTypeChecker
+     * @param Type {String|Function|Class} - Type name, constructor and/or class.
+     * @param value {*}
+     * @returns {Boolean}
+     */
+    defaultTypeChecker = exports.defaultTypeChecker = (0, _fjl.curry)(defaultTypeChecker$),
+
+
+    /**
      * Checks that passed in `value` is of given `type`.  Throws an error if value
      * is not of given `type`.  Curried.
      * @function module:fjlErrorThrowing.errorIfNotType
@@ -224,4 +246,20 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
      * @returns {Function|errorIfNotTypes} - Returns a function with the same signature as `errorIfNotTypes` though curried.
      */
     getErrorIfNotTypesThrower = exports.getErrorIfNotTypesThrower = errorMessageCall => (0, _fjl.curry4)(getErrorIfNotTypesThrower$(errorMessageCall));
+
+    exports.default = {
+        defaultTypeChecker$,
+        defaultTypeChecker,
+        getTypeName,
+        multiTypesToString,
+        defaultErrorMessageCall,
+        errorIfNotType$,
+        errorIfNotType,
+        errorIfNotTypes$,
+        errorIfNotTypes,
+        getErrorIfNotTypeThrower$,
+        getErrorIfNotTypeThrower,
+        getErrorIfNotTypesThrower$,
+        getErrorIfNotTypesThrower
+    };
 });

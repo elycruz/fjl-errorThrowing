@@ -2,7 +2,7 @@
  * @module fjlErrorThrowing
  */
 import {
-    typeOf,
+    typeOf, isset,
     _isType as isType,
     map, length, intercalate,
     isString, isArray, isFunction,
@@ -75,6 +75,16 @@ export const
     },
 
     /**
+     * Returns a boolean indicating whether given value matches given type.
+     * @function module:fjlErrorThrowing.defaultTypeChecker$
+     * @param Type {String|Function|Class} - Type name, constructor and/or class.
+     * @param value {*}
+     * @returns {Boolean}
+     */
+    defaultTypeChecker$ = (Type, value) =>
+        isType(getTypeName(Type), value) || isset(value) && value instanceof Type,
+
+    /**
      * Pretty prints an array of types/type-strings for use by error messages;
      * Outputs "`SomeTypeName`, ..." from [SomeType, 'SomeTypeName', etc...]
      * @private
@@ -114,10 +124,11 @@ export const
      * @param errorMessageCall {Function|errorMessageCall}
      * @returns {Function|errorIfNotType}
      */
-    getErrorIfNotTypeThrower$ = errorMessageCall => (contextName, valueName, value, ValueType, messageSuffix = null) => {
+    getErrorIfNotTypeThrower$ = errorMessageCall => (contextName, valueName, value, ValueType, messageSuffix = null,
+                                                     typeChecker = defaultTypeChecker$) => {
         const expectedTypeName = getTypeName(ValueType),
             foundTypeName = typeOf(value);
-        if (isType(expectedTypeName, value)) { return; }
+        if (typeChecker(ValueType, value)) { return; } // Value matches type
         throw new Error(errorMessageCall(
             {contextName, valueName, value, expectedTypeName, foundTypeName, messageSuffix}
         ));
@@ -173,6 +184,17 @@ export const
     errorIfNotTypes$ = getErrorIfNotTypesThrower$(defaultErrorMessageCall),
 
     /**
+     * Same as `defaultTypeChecker$` except curried:
+     *  "Returns a boolean indicating whether given value matches given type".
+     * @curried
+     * @function module:fjlErrorThrowing.defaultTypeChecker
+     * @param Type {String|Function|Class} - Type name, constructor and/or class.
+     * @param value {*}
+     * @returns {Boolean}
+     */
+    defaultTypeChecker = curry(defaultTypeChecker$),
+
+    /**
      * Checks that passed in `value` is of given `type`.  Throws an error if value
      * is not of given `type`.  Curried.
      * @function module:fjlErrorThrowing.errorIfNotType
@@ -219,3 +241,19 @@ export const
      */
     getErrorIfNotTypesThrower = errorMessageCall => curry4(getErrorIfNotTypesThrower$(errorMessageCall))
 ;
+
+export default {
+    defaultTypeChecker$,
+    defaultTypeChecker,
+    getTypeName,
+    multiTypesToString,
+    defaultErrorMessageCall,
+    errorIfNotType$,
+    errorIfNotType,
+    errorIfNotTypes$,
+    errorIfNotTypes,
+    getErrorIfNotTypeThrower$,
+    getErrorIfNotTypeThrower,
+    getErrorIfNotTypesThrower$,
+    getErrorIfNotTypesThrower
+};
