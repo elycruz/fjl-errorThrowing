@@ -1,18 +1,21 @@
 # fjl-errorThrowing
-=======
-Error throwing helpers.  In particular for when a type doesn't match an expected type (or one of one or more types).
+
+Error throwing helpers.  In particular for when a type doesn't match an expected type (or one of one or more expected types).
 
 ## Install 
-`npm install elycruz/fjl-errorThrowing`
+`npm install fjl-error-throwing`
 
 ## Methods
-- `errorIfNotType<contextName, valueName, value, type, messageSuffix=null> {Undefined}` - 
+### `errorIfNotType<type, contextName, valueName, value, messageSuffix=null> {Undefined}` -
     Curried.  Throws an error when your `value` doesn't match given `type`.
-- `errorIfNotTypes<contextName, valueName, value, ...types> : {Undefined}` - 
+
+### `errorIfNotTypes<types, contextName, valueName, value> : {Undefined}` -
     Curried.  Throws an error when your `value` doesn't match one of the given `types` passed in.
-- `getErrorIfNotTypeThrower<messageTmplFunction> : errorIfNotType` - Gives an `errorIfNotType` 
+
+### `getErrorIfNotTypeThrower<messageTmplFunction, typeChecker> : errorIfNotType` - Gives an `errorIfNotType`
     function (curried version) that uses the passed message template function to generate the error message string.
-- `getErrorIfNotTypesThrower<messageTmplFunction> : errorIfNotTypes` - Gives an `errorIfNotTypes` 
+
+### `getErrorIfNotTypesThrower<messageTmplFunction, typeChecker> : errorIfNotTypes` - Gives an `errorIfNotTypes`
     function (curried version) that uses the passed message template function to generate the error message string.
 
 **Note**: For un-curried versions of the methods above access them with a trailing '$' character;  
@@ -24,41 +27,13 @@ Docs will go up somewhere later. @todo
 
 ### Types:
 ```
-// Template Context used by `messageTmplFunction`:
-/**
- * @typedef {Object<value, valueName, expectedTypeName, foundTypeName, messageSuffix>} TemplateContext
- * @description Template context used for error message renderers (functions that take a context obj and return a string).
- * @property value {Any}
- * @property valueName {String}
- * @property expectedTypeName {String} - Expected name of constructor of `value`;  E.g., usually `SomeConstructor.name`;
- * @property foundTypeName {String} - Found types name;  E.g., `FoundConstructor.name`;
- * @property [messageSuffix=null] {Any} - Message suffix (sometimes an extra hint or instructions for
- *  directing user to fix where his/her error has occurred).  Optional.
- */
-/**
- * Error message template function.
- * @typedef {Function} errorMessageCall
- * @param tmplContext {TemplateContext}
- * @returns {String}
- */
-/**
- * Used to ensure value matches passed in type.
- * @typedef {Function} errorIfNotType
- * @param valueName {String}
- * @param value {Any}
- * @param type {String|Function} - Constructor name or constructor.
- * @throws {Error} - If value doesn't match type.
- * @returns {Undefined}
- */
-/**
- * Used to ensure a value matches one of one or more types passed in.
- * @typedef {Function} errorIfNotTypes
- * @param valueName {String}
- * @param value {Any}
- * @param valueTypes {...(String|Function)} - Constructor names or constructors.
- * @throws {Error} - If value doesn't match type.
- * @returns {Undefined}
- */
+TemplateContext     {Object<value, valueName, expectedTypeName, foundTypeName, messageSuffix>}
+Type                {String|Function} - Constructor name or constructor itself.
+TypesArray          {Array<Type>}
+TypeChecker         {Function<Type, Any>}
+ErrorMessageCall    {Function<TemplateContext>}
+ErrorIfNotType
+ErrorIfNotTypes
 ```
 
 ### Usage 

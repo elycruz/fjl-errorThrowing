@@ -41,11 +41,13 @@
      */
 
     /**
-     * @description Checks whether a value is of given type.
+     * Checks whether a value is of given type.
      * @typedef {Function} TypeChecker
      * @param Type {Function|String} - a Type constructor or it's name.
+     * @param value {Any} - Any value.
      * @returns {Boolean}
      */
+
     /**
      * Error message template function.
      * @typedef {Function} errorMessageCall
@@ -157,7 +159,7 @@
      */
     getErrorIfNotTypeThrower$ = exports.getErrorIfNotTypeThrower$ = function getErrorIfNotTypeThrower$(errorMessageCall) {
         var typeChecker = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultTypeChecker$;
-        return function (contextName, valueName, value, ValueType) {
+        return function (ValueType, contextName, valueName, value) {
             var messageSuffix = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
 
             var expectedTypeName = getTypeName(ValueType),
@@ -179,11 +181,7 @@
      */
     getErrorIfNotTypesThrower$ = exports.getErrorIfNotTypesThrower$ = function getErrorIfNotTypesThrower$(errorMessageCall) {
         var typeChecker = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultTypeChecker$;
-        return function (contextName, valueName, value) {
-            for (var _len = arguments.length, valueTypes = Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
-                valueTypes[_key - 3] = arguments[_key];
-            }
-
+        return function (valueTypes, contextName, valueName, value) {
             var expectedTypeNames = valueTypes.map(getTypeName),
                 matchFound = valueTypes.some(function (ValueType) {
                 return typeChecker(ValueType, value);
@@ -205,10 +203,10 @@
      * is not of given `type`.  This is the un-curried version.  For the curried version
      * see `module:fjlErrorThrowing.errorIfNotType`.
      * @function module:fjlErrorThrowing.errorIfNotType$
+     * @param type {String|Function} - Type's name or type itself.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
      * @param value {Any}
-     * @param type {String|Function} - Type's name or type itself.
      * @param [messageSuffix=null] {String} - Optional.
      * @returns {undefined}
      * @uncurried
@@ -222,10 +220,10 @@
      * see `module:fjlErrorThrowing.errorIfNotTypes`.
      * @type {Function|module:fjlErrorThrowing.errorIfNotTypes}
      * @function module:fjlErrorThrowing.errorIfNotTypes$
+     * @param types {Array} - Array of one or more types or type names themselves.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
      * @param value {Any}
-     * @param types {...(String|Function)} - One or more type names or types themselves.
      * @returns {undefined}
      * @uncurried
      */
@@ -248,10 +246,10 @@
      * Checks that passed in `value` is of given `type`.  Throws an error if value
      * is not of given `type`.  Curried.
      * @function module:fjlErrorThrowing.errorIfNotType
+     * @param type {String|Function} - Type's name or type itself.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
      * @param value {Any}
-     * @param type {String|Function} - Type's name or type itself.
      * @param [messageSuffix=null] {String} - Optional.
      * @returns {undefined}
      * @curried
@@ -263,10 +261,10 @@
      * Checks that passed in `value` is of one of the given `types`.  Throws an error if value
      *  is not of one of the given `types`.  Curried.
      * @function module:fjlErrorThrowing.errorIfNotTypes
+     * @param types {Array} - Array of one or more types or type names themselves.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
      * @param value {Any}
-     * @param types {...(String|Function)} - Type's name or type itself.
      * @returns {undefined}
      * @curried
      */

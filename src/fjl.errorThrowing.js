@@ -10,17 +10,11 @@ import {
 } from 'fjl';
 
 /**
- * @memberOf module:fjlErrorThrowing
- * @property version {String}
- */
-export {version} from './generated/version';
-
-/**
  * @typedef {*} Any - Synonym for 'any value'.
  */
 
 /**
- * @typedef {Object<value, valueName, expectedTypeName, foundTypeName, messageSuffix>} TemplateContext
+ * @typedef TemplateContext {Object<value, valueName, expectedTypeName, foundTypeName, messageSuffix>}
  * @description Template context used for error message renderers (functions that take a context obj and return a string).
  * @property value {Any}
  * @property valueName {String}
@@ -31,37 +25,52 @@ export {version} from './generated/version';
  */
 
 /**
- * @description Checks whether a value is of given type.
+ * @typedef {Array<(String|Function)>} TypesArray
+ */
+
+/**
  * @typedef {Function} TypeChecker
+ * @description Checks whether a value is of given type.
  * @param Type {Function|String} - a Type constructor or it's name.
+ * @param value {Any} - Any value.
  * @returns {Boolean}
  */
+
 /**
- * Error message template function.
- * @typedef {Function} errorMessageCall
+ * @typedef {Function} ErrorMessageCall
+ * @description Error message template function.
  * @param tmplContext {TemplateContext}
  * @returns {String}
  */
 
 /**
- * Used to ensure value matches passed in type.
- * @typedef {Function} errorIfNotType
+ * @typedef {Function} ErrorIfNotType
+ * @description Used to ensure value matches passed in type.
+ * @param type {String|Function} - Constructor name or constructor.
+ * @param contextName {String}
  * @param valueName {String}
  * @param value {Any}
- * @param type {String|Function} - Constructor name or constructor.
  * @throws {Error} - If value doesn't match type.
  * @returns {Undefined}
  */
 
 /**
- * Used to ensure a value matches one of one or more types passed in.
- * @typedef {Function} errorIfNotTypes
+ * @typedef {Function} ErrorIfNotTypes
+ * @description Used to ensure a value matches one of one or more types passed in.
+ * @param valueTypes {Array|TypesArray} - Array of constructor names or constructors.
+ * @param contextName {String}
  * @param valueName {String}
  * @param value {Any}
- * @param valueTypes {...(String|Function)} - Constructor names or constructors.
  * @throws {Error} - If value doesn't match type.
  * @returns {Undefined}
  */
+
+/**
+ * @memberOf module:fjlErrorThrowing
+ * @property version {String}
+ * @description Library version no..
+ */
+export {version} from './generated/version';
 
 export const
 
@@ -84,12 +93,13 @@ export const
      * @private
      */
     getTypeName = type =>
-        errorIfNotCheckableType('getTypeName', type) && isString(type) ? type : type.name,
+        errorIfNotCheckableType('getTypeName', type) &&
+            isString(type) ? type : type.name,
 
     /**
      * Returns a boolean indicating whether given value matches given type.
      * @function module:fjlErrorThrowing.defaultTypeChecker$
-     * @param Type {String|Function|Class} - Type name, constructor and/or class.
+     * @param Type {String|Function} - Type name, constructor and/or class.
      * @param value {*}
      * @returns {Boolean}
      */
@@ -133,11 +143,11 @@ export const
     /**
      * Gets the error message thrower seeded with passed in errorMessage template call.
      * @function module:fjlErrorThrowing.getErrorIfNotTypeThrower$
-     * @param errorMessageCall {Function|errorMessageCall}
-     * @param typeChecker {TypeChecker|Function} - Function<Type, value>:Boolean
+     * @param errorMessageCall {Function|ErrorMessageCall}
+     * @param typeChecker {Function|TypeChecker} - Function<Type, value>:Boolean
      * @returns {Function|errorIfNotType}
      */
-    getErrorIfNotTypeThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) => (contextName, valueName, value, ValueType, messageSuffix = null) => {
+    getErrorIfNotTypeThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) => (ValueType, contextName, valueName, value, messageSuffix = null) => {
         const expectedTypeName = getTypeName(ValueType),
             foundTypeName = typeOf(value);
         if (typeChecker(ValueType, value)) { return; } // Value matches type
@@ -150,10 +160,10 @@ export const
      * Gets the error message thrower seeded with passed in errorMessage template call.
      * @function module:fjlErrorThrowing.getErrorIfNotTypesThrower$
      * @param errorMessageCall {Function|errorMessageCall}
-     * @param typeChecker {TypeChecker|Function} - Function<Type, value>:Boolean
+     * @param typeChecker {Function|TypeChecker} - Function<Type, value>:Boolean
      * @returns {Function|errorIfNotTypes}
      */
-    getErrorIfNotTypesThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) => (contextName, valueName, value, ...valueTypes) => {
+    getErrorIfNotTypesThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) => (valueTypes, contextName, valueName, value) => {
         const expectedTypeNames = valueTypes.map(getTypeName),
             matchFound = valueTypes.some(ValueType => typeChecker(ValueType, value)),
             foundTypeName = typeOf(value);
@@ -171,10 +181,10 @@ export const
      * is not of given `type`.  This is the un-curried version.  For the curried version
      * see `module:fjlErrorThrowing.errorIfNotType`.
      * @function module:fjlErrorThrowing.errorIfNotType$
+     * @param type {String|Function} - Type's name or type itself.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
      * @param value {Any}
-     * @param type {String|Function} - Type's name or type itself.
      * @param [messageSuffix=null] {String} - Optional.
      * @returns {undefined}
      * @uncurried
@@ -187,10 +197,10 @@ export const
      * see `module:fjlErrorThrowing.errorIfNotTypes`.
      * @type {Function|module:fjlErrorThrowing.errorIfNotTypes}
      * @function module:fjlErrorThrowing.errorIfNotTypes$
+     * @param types {Array} - Array of one or more types or type names themselves.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
      * @param value {Any}
-     * @param types {...(String|Function)} - One or more type names or types themselves.
      * @returns {undefined}
      * @uncurried
      */
@@ -211,10 +221,10 @@ export const
      * Checks that passed in `value` is of given `type`.  Throws an error if value
      * is not of given `type`.  Curried.
      * @function module:fjlErrorThrowing.errorIfNotType
+     * @param type {String|Function} - Type's name or type itself.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
      * @param value {Any}
-     * @param type {String|Function} - Type's name or type itself.
      * @param [messageSuffix=null] {String} - Optional.
      * @returns {undefined}
      * @curried
@@ -225,10 +235,10 @@ export const
      * Checks that passed in `value` is of one of the given `types`.  Throws an error if value
      *  is not of one of the given `types`.  Curried.
      * @function module:fjlErrorThrowing.errorIfNotTypes
+     * @param types {Array} - Array of one or more types or type names themselves.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
      * @param value {Any}
-     * @param types {...(String|Function)} - Type's name or type itself.
      * @returns {undefined}
      * @curried
      */

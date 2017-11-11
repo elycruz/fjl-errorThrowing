@@ -29,11 +29,13 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
      */
 
     /**
-     * @description Checks whether a value is of given type.
+     * Checks whether a value is of given type.
      * @typedef {Function} TypeChecker
      * @param Type {Function|String} - a Type constructor or it's name.
+     * @param value {Any} - Any value.
      * @returns {Boolean}
      */
+
     /**
      * Error message template function.
      * @typedef {Function} errorMessageCall
@@ -130,7 +132,7 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
      * @param typeChecker {TypeChecker|Function} - Function<Type, value>:Boolean
      * @returns {Function|errorIfNotType}
      */
-    getErrorIfNotTypeThrower$ = exports.getErrorIfNotTypeThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) => (contextName, valueName, value, ValueType, messageSuffix = null) => {
+    getErrorIfNotTypeThrower$ = exports.getErrorIfNotTypeThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) => (ValueType, contextName, valueName, value, messageSuffix = null) => {
         const expectedTypeName = getTypeName(ValueType),
               foundTypeName = (0, _fjl.typeOf)(value);
         if (typeChecker(ValueType, value)) {
@@ -147,7 +149,7 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
      * @param typeChecker {TypeChecker|Function} - Function<Type, value>:Boolean
      * @returns {Function|errorIfNotTypes}
      */
-    getErrorIfNotTypesThrower$ = exports.getErrorIfNotTypesThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) => (contextName, valueName, value, ...valueTypes) => {
+    getErrorIfNotTypesThrower$ = exports.getErrorIfNotTypesThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) => (valueTypes, contextName, valueName, value) => {
         const expectedTypeNames = valueTypes.map(getTypeName),
               matchFound = valueTypes.some(ValueType => typeChecker(ValueType, value)),
               foundTypeName = (0, _fjl.typeOf)(value);
@@ -166,10 +168,10 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
      * is not of given `type`.  This is the un-curried version.  For the curried version
      * see `module:fjlErrorThrowing.errorIfNotType`.
      * @function module:fjlErrorThrowing.errorIfNotType$
+     * @param type {String|Function} - Type's name or type itself.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
      * @param value {Any}
-     * @param type {String|Function} - Type's name or type itself.
      * @param [messageSuffix=null] {String} - Optional.
      * @returns {undefined}
      * @uncurried
@@ -183,10 +185,10 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
      * see `module:fjlErrorThrowing.errorIfNotTypes`.
      * @type {Function|module:fjlErrorThrowing.errorIfNotTypes}
      * @function module:fjlErrorThrowing.errorIfNotTypes$
+     * @param types {Array} - Array of one or more types or type names themselves.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
      * @param value {Any}
-     * @param types {...(String|Function)} - One or more type names or types themselves.
      * @returns {undefined}
      * @uncurried
      */
@@ -209,10 +211,10 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
      * Checks that passed in `value` is of given `type`.  Throws an error if value
      * is not of given `type`.  Curried.
      * @function module:fjlErrorThrowing.errorIfNotType
+     * @param type {String|Function} - Type's name or type itself.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
      * @param value {Any}
-     * @param type {String|Function} - Type's name or type itself.
      * @param [messageSuffix=null] {String} - Optional.
      * @returns {undefined}
      * @curried
@@ -224,10 +226,10 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
      * Checks that passed in `value` is of one of the given `types`.  Throws an error if value
      *  is not of one of the given `types`.  Curried.
      * @function module:fjlErrorThrowing.errorIfNotTypes
+     * @param types {Array} - Array of one or more types or type names themselves.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
      * @param value {Any}
-     * @param types {...(String|Function)} - Type's name or type itself.
      * @returns {undefined}
      * @curried
      */
