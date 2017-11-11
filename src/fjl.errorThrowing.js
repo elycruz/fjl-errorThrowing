@@ -31,6 +31,12 @@ export {version} from './generated/version';
  */
 
 /**
+ * @description Checks whether a value is of given type.
+ * @typedef {Function} TypeChecker
+ * @param Type {Function|String} - a Type constructor or it's name.
+ * @returns {Boolean}
+ */
+/**
  * Error message template function.
  * @typedef {Function} errorMessageCall
  * @param tmplContext {TemplateContext}
@@ -59,6 +65,16 @@ export {version} from './generated/version';
 
 export const
 
+    isCheckableType = type => isString(type) || isFunction(type),
+
+    errorIfNotCheckableType = (contextName, type) => {
+        if (!isCheckableType(type)) {
+            throw new Error (`${contextName} expects Types to be checked against to be of type \`String\` or \`Function\`.` +
+                `  Type received \`${typeOf(type)}\`.  Value \`${type}\`.`);
+        }
+        return type;
+    },
+
     /**
      * Resolves/normalizes a type name from either a string or a constructor.
      * @private
@@ -67,12 +83,8 @@ export const
      * @returns {String}
      * @private
      */
-    getTypeName = type => {
-        if (isString(type)) { return type; }
-        else if (isFunction(type)) { return type.name; }
-        throw Error('`fjlErrorThrowing.getTypeName` only accepts strings and/or constructors.  ' +
-            'Value type received: ' + typeOf(type) + ';  Value: ' + type);
-    },
+    getTypeName = type =>
+        errorIfNotCheckableType('getTypeName', type) && isString(type) ? type : type.name,
 
     /**
      * Returns a boolean indicating whether given value matches given type.
@@ -81,8 +93,8 @@ export const
      * @param value {*}
      * @returns {Boolean}
      */
-    defaultTypeChecker$ = (Type, value) =>
-        isType(getTypeName(Type), value) || isset(value) && value instanceof Type,
+    defaultTypeChecker$ = (Type, value) => isType(getTypeName(Type), value) || (
+        isFunction(Type) && isset(value) && value instanceof Type),
 
     /**
      * Pretty prints an array of types/type-strings for use by error messages;
@@ -122,10 +134,10 @@ export const
      * Gets the error message thrower seeded with passed in errorMessage template call.
      * @function module:fjlErrorThrowing.getErrorIfNotTypeThrower$
      * @param errorMessageCall {Function|errorMessageCall}
+     * @param typeChecker {TypeChecker|Function} - Function<Type, value>:Boolean
      * @returns {Function|errorIfNotType}
      */
-    getErrorIfNotTypeThrower$ = errorMessageCall => (contextName, valueName, value, ValueType, messageSuffix = null,
-                                                     typeChecker = defaultTypeChecker$) => {
+    getErrorIfNotTypeThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) => (contextName, valueName, value, ValueType, messageSuffix = null) => {
         const expectedTypeName = getTypeName(ValueType),
             foundTypeName = typeOf(value);
         if (typeChecker(ValueType, value)) { return; } // Value matches type
@@ -138,11 +150,12 @@ export const
      * Gets the error message thrower seeded with passed in errorMessage template call.
      * @function module:fjlErrorThrowing.getErrorIfNotTypesThrower$
      * @param errorMessageCall {Function|errorMessageCall}
+     * @param typeChecker {TypeChecker|Function} - Function<Type, value>:Boolean
      * @returns {Function|errorIfNotTypes}
      */
-    getErrorIfNotTypesThrower$ = errorMessageCall => (contextName, valueName, value, ...valueTypes) => {
+    getErrorIfNotTypesThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) => (contextName, valueName, value, ...valueTypes) => {
         const expectedTypeNames = valueTypes.map(getTypeName),
-            matchFound = expectedTypeNames.some(ValueType => isType(ValueType, value)),
+            matchFound = valueTypes.some(ValueType => typeChecker(ValueType, value)),
             foundTypeName = typeOf(value);
         if (matchFound) { return; }
         throw new Error(

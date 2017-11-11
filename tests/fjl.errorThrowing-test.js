@@ -163,7 +163,7 @@ describe ('#fjl.errorThrowing', function () {
         });
         it ('It\'s returned function should not throw an error when passed in value ' +
             'matches passed in type', function () {
-            expect(errorIfNotTypes('SomeContext')(
+            expect(errorIfNotTypes('SomeContext',
                 'someValueName', 'someValue'.split(''), Function, Array, Boolean
             )).to.equal(undefined); // should return undefined
         });

@@ -16,7 +16,7 @@
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    exports.getErrorIfNotTypesThrower = exports.getErrorIfNotTypeThrower = exports.errorIfNotTypes = exports.errorIfNotType = exports.defaultTypeChecker = exports.errorIfNotTypes$ = exports.errorIfNotType$ = exports.getErrorIfNotTypesThrower$ = exports.getErrorIfNotTypeThrower$ = exports.defaultErrorMessageCall = exports.multiTypesToString = exports.defaultTypeChecker$ = exports.getTypeName = exports.version = undefined;
+    exports.getErrorIfNotTypesThrower = exports.getErrorIfNotTypeThrower = exports.errorIfNotTypes = exports.errorIfNotType = exports.defaultTypeChecker = exports.errorIfNotTypes$ = exports.errorIfNotType$ = exports.getErrorIfNotTypesThrower$ = exports.getErrorIfNotTypeThrower$ = exports.defaultErrorMessageCall = exports.multiTypesToString = exports.defaultTypeChecker$ = exports.getTypeName = exports.errorIfNotCheckableType = exports.isCheckableType = exports.version = undefined;
     Object.defineProperty(exports, 'version', {
         enumerable: true,
         get: function () {
@@ -40,6 +40,12 @@
      *  directing user to fix where his/her error has occurred).  Optional.
      */
 
+    /**
+     * @description Checks whether a value is of given type.
+     * @typedef {Function} TypeChecker
+     * @param Type {Function|String} - a Type constructor or it's name.
+     * @returns {Boolean}
+     */
     /**
      * Error message template function.
      * @typedef {Function} errorMessageCall
@@ -67,7 +73,16 @@
      * @returns {Undefined}
      */
 
-    var
+    var isCheckableType = exports.isCheckableType = function isCheckableType(type) {
+        return (0, _fjl.isString)(type) || (0, _fjl.isFunction)(type);
+    },
+        errorIfNotCheckableType = exports.errorIfNotCheckableType = function errorIfNotCheckableType(contextName, type) {
+        if (!isCheckableType(type)) {
+            throw new Error(contextName + ' expects Types to be checked against to be of type `String` or `Function`.' + ('  Type received `' + (0, _fjl.typeOf)(type) + '`.  Value `' + type + '`.'));
+        }
+        return type;
+    },
+
 
     /**
      * Resolves/normalizes a type name from either a string or a constructor.
@@ -78,12 +93,7 @@
      * @private
      */
     getTypeName = exports.getTypeName = function getTypeName(type) {
-        if ((0, _fjl.isString)(type)) {
-            return type;
-        } else if ((0, _fjl.isFunction)(type)) {
-            return type.name;
-        }
-        throw Error('`fjlErrorThrowing.getTypeName` only accepts strings and/or constructors.  ' + 'Value type received: ' + (0, _fjl.typeOf)(type) + ';  Value: ' + type);
+        return errorIfNotCheckableType('getTypeName', type) && (0, _fjl.isString)(type) ? type : type.name;
     },
 
 
@@ -95,7 +105,7 @@
      * @returns {Boolean}
      */
     defaultTypeChecker$ = exports.defaultTypeChecker$ = function defaultTypeChecker$(Type, value) {
-        return (0, _fjl._isType)(getTypeName(Type), value) || (0, _fjl.isset)(value) && value instanceof Type;
+        return (0, _fjl._isType)(getTypeName(Type), value) || (0, _fjl.isFunction)(Type) && (0, _fjl.isset)(value) && value instanceof Type;
     },
 
 
@@ -142,12 +152,13 @@
      * Gets the error message thrower seeded with passed in errorMessage template call.
      * @function module:fjlErrorThrowing.getErrorIfNotTypeThrower$
      * @param errorMessageCall {Function|errorMessageCall}
+     * @param typeChecker {TypeChecker|Function} - Function<Type, value>:Boolean
      * @returns {Function|errorIfNotType}
      */
     getErrorIfNotTypeThrower$ = exports.getErrorIfNotTypeThrower$ = function getErrorIfNotTypeThrower$(errorMessageCall) {
+        var typeChecker = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultTypeChecker$;
         return function (contextName, valueName, value, ValueType) {
             var messageSuffix = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
-            var typeChecker = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : defaultTypeChecker$;
 
             var expectedTypeName = getTypeName(ValueType),
                 foundTypeName = (0, _fjl.typeOf)(value);
@@ -163,17 +174,19 @@
      * Gets the error message thrower seeded with passed in errorMessage template call.
      * @function module:fjlErrorThrowing.getErrorIfNotTypesThrower$
      * @param errorMessageCall {Function|errorMessageCall}
+     * @param typeChecker {TypeChecker|Function} - Function<Type, value>:Boolean
      * @returns {Function|errorIfNotTypes}
      */
     getErrorIfNotTypesThrower$ = exports.getErrorIfNotTypesThrower$ = function getErrorIfNotTypesThrower$(errorMessageCall) {
+        var typeChecker = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultTypeChecker$;
         return function (contextName, valueName, value) {
             for (var _len = arguments.length, valueTypes = Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
                 valueTypes[_key - 3] = arguments[_key];
             }
 
             var expectedTypeNames = valueTypes.map(getTypeName),
-                matchFound = expectedTypeNames.some(function (ValueType) {
-                return (0, _fjl._isType)(ValueType, value);
+                matchFound = valueTypes.some(function (ValueType) {
+                return typeChecker(ValueType, value);
             }),
                 foundTypeName = (0, _fjl.typeOf)(value);
             if (matchFound) {
