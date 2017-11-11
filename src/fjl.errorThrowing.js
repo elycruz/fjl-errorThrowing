@@ -1,5 +1,7 @@
 /**
  * @module fjlErrorThrowing
+ * @description Contains error throwing facilities for when a value doesn't match a type.
+ *  In addition gives you curried and uncurried versions of the multi arity functions included.
  */
 import {
     typeOf, isset,
@@ -74,8 +76,21 @@ export {version} from './generated/version';
 
 export const
 
+    /**
+     * Checks if `type` is a string or a function (constructor or constructor name)
+     * @function module:fjlErrorThrowing.isCheckableType
+     * @param type {Type|String|Function}
+     * @returns {Boolean}
+     */
     isCheckableType = type => isString(type) || isFunction(type),
 
+    /**
+     * Throws an error if `type` is not a checkable type (can't be checked by the `TypeChecker` type)
+     * @function module:fjlErrorThrowing.errorIfNotCheckableType
+     * @param contextName {String}
+     * @param type {Type|String|Function}
+     * @returns {Type} - Type passed in if `type` is checkable
+     */
     errorIfNotCheckableType = (contextName, type) => {
         if (!isCheckableType(type)) {
             throw new Error (`${contextName} expects Types to be checked against to be of type \`String\` or \`Function\`.` +
@@ -145,7 +160,7 @@ export const
      * @function module:fjlErrorThrowing.getErrorIfNotTypeThrower$
      * @param errorMessageCall {Function|ErrorMessageCall}
      * @param typeChecker {Function|TypeChecker} - Function<Type, value>:Boolean
-     * @returns {Function|errorIfNotType}
+     * @returns {Function|ErrorIfNotType}
      */
     getErrorIfNotTypeThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) => (ValueType, contextName, valueName, value, messageSuffix = null) => {
         const expectedTypeName = getTypeName(ValueType),
@@ -159,9 +174,9 @@ export const
     /**
      * Gets the error message thrower seeded with passed in errorMessage template call.
      * @function module:fjlErrorThrowing.getErrorIfNotTypesThrower$
-     * @param errorMessageCall {Function|errorMessageCall}
+     * @param errorMessageCall {Function|ErrorMessageCall}
      * @param typeChecker {Function|TypeChecker} - Function<Type, value>:Boolean
-     * @returns {Function|errorIfNotTypes}
+     * @returns {Function|ErrorIfNotTypes}
      */
     getErrorIfNotTypesThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) => (valueTypes, contextName, valueName, value) => {
         const expectedTypeNames = valueTypes.map(getTypeName),
@@ -211,7 +226,7 @@ export const
      *  "Returns a boolean indicating whether given value matches given type".
      * @curried
      * @function module:fjlErrorThrowing.defaultTypeChecker
-     * @param Type {String|Function|Class} - Type name, constructor and/or class.
+     * @param Type {String|Function} - Type name, constructor and/or class.
      * @param value {*}
      * @returns {Boolean}
      */
@@ -250,7 +265,7 @@ export const
      *   etc.
      * @function module:fjlErrorThrowing.getErrorIfNotTypeThrower
      * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
-     * @returns {Function|errorIfNotType} - Returns a function with the same signature as `errorIfNotType` though curried.
+     * @returns {Function|ErrorIfNotType} - Returns a function with the same signature as `errorIfNotType` though curried.
      */
     getErrorIfNotTypeThrower = errorMessageCall => curry(getErrorIfNotTypeThrower$(errorMessageCall)),
 
@@ -260,7 +275,7 @@ export const
      *   containing the value types, names, expected type names, are-required/should-be-used etc.
      * @function module:fjlErrorThrowing.getErrorIfNotTypesThrower
      * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
-     * @returns {Function|errorIfNotTypes} - Returns a function with the same signature as `errorIfNotTypes` though curried.
+     * @returns {Function|ErrorIfNotTypes} - Returns a function with the same signature as `errorIfNotTypes` though curried.
      */
     getErrorIfNotTypesThrower = errorMessageCall => curry4(getErrorIfNotTypesThrower$(errorMessageCall))
 ;
