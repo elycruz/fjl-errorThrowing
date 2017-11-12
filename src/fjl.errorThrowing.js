@@ -16,13 +16,18 @@ import {
  */
 
 /**
- * @typedef TemplateContext {Object<value, valueName, expectedTypeName, foundTypeName, messageSuffix>}
+ * @typedef {String|Function} TypeRef
+ * @description Type reference.  Type itself or Type's name;  E.g., `Type.name`;
+ */
+
+/**
+ * @typedef {Object<value, valueName, expectedTypeName, foundTypeName, messageSuffix>} TemplateContext
  * @description Template context used for error message renderers (functions that take a context obj and return a string).
- * @property value {Any}
+ * @property value {*}
  * @property valueName {String}
  * @property expectedTypeName {String} - Expected name of constructor of `value`;  E.g., usually `SomeConstructor.name`;
  * @property foundTypeName {String} - Found types name;  E.g., `FoundConstructor.name`;
- * @property [messageSuffix=null] {Any} - Message suffix (sometimes an extra hint or instructions for
+ * @property [messageSuffix=null] {*} - Message suffix (sometimes an extra hint or instructions for
  *  directing user to fix where his/her error has occurred).  Optional.
  */
 
@@ -33,8 +38,8 @@ import {
 /**
  * @typedef {Function} TypeChecker
  * @description Checks whether a value is of given type.
- * @param Type {Function|String} - a Type constructor or it's name.
- * @param value {Any} - Any value.
+ * @param Type {TypeRef} - a Type or it's name;  E.g., `Type.name`.
+ * @param value {*}
  * @returns {Boolean}
  */
 
@@ -48,10 +53,10 @@ import {
 /**
  * @typedef {Function} ErrorIfNotType
  * @description Used to ensure value matches passed in type.
- * @param type {String|Function} - Constructor name or constructor.
+ * @param type {TypeRef} - Constructor name or constructor.
  * @param contextName {String}
  * @param valueName {String}
- * @param value {Any}
+ * @param value {*}
  * @throws {Error} - If value doesn't match type.
  * @returns {Undefined}
  */
@@ -59,19 +64,14 @@ import {
 /**
  * @typedef {Function} ErrorIfNotTypes
  * @description Used to ensure a value matches one of one or more types passed in.
- * @param valueTypes {Array|TypesArray} - Array of constructor names or constructors.
+ * @param valueTypes {TypesArray} - Array of constructor names or constructors.
  * @param contextName {String}
  * @param valueName {String}
- * @param value {Any}
+ * @param value {*}
  * @throws {Error} - If value doesn't match type.
  * @returns {Undefined}
  */
 
-/**
- * @memberOf module:fjlErrorThrowing
- * @property version {String}
- * @description Library version no..
- */
 export {version} from './generated/version';
 
 export const
@@ -79,7 +79,7 @@ export const
     /**
      * Checks if `type` is a string or a function (constructor or constructor name)
      * @function module:fjlErrorThrowing.isCheckableType
-     * @param type {Type|String|Function}
+     * @param type {TypeRef}
      * @returns {Boolean}
      */
     isCheckableType = type => isString(type) || isFunction(type),
@@ -88,8 +88,8 @@ export const
      * Throws an error if `type` is not a checkable type (can't be checked by the `TypeChecker` type)
      * @function module:fjlErrorThrowing.errorIfNotCheckableType
      * @param contextName {String}
-     * @param type {Type|String|Function}
-     * @returns {Type} - Type passed in if `type` is checkable
+     * @param type {TypeRef}
+     * @returns {TypeRef} - Type passed in if `type` is checkable
      */
     errorIfNotCheckableType = (contextName, type) => {
         if (!isCheckableType(type)) {
@@ -199,7 +199,7 @@ export const
      * @param type {String|Function} - Type's name or type itself.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
-     * @param value {Any}
+     * @param value {*}
      * @param [messageSuffix=null] {String} - Optional.
      * @returns {undefined}
      * @uncurried
@@ -215,7 +215,7 @@ export const
      * @param types {Array} - Array of one or more types or type names themselves.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
-     * @param value {Any}
+     * @param value {*}
      * @returns {undefined}
      * @uncurried
      */
@@ -239,7 +239,7 @@ export const
      * @param type {String|Function} - Type's name or type itself.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
-     * @param value {Any}
+     * @param value {*}
      * @param [messageSuffix=null] {String} - Optional.
      * @returns {undefined}
      * @curried
@@ -253,7 +253,7 @@ export const
      * @param types {Array} - Array of one or more types or type names themselves.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
-     * @param value {Any}
+     * @param value {*}
      * @returns {undefined}
      * @curried
      */

@@ -1,6 +1,6 @@
 {
   "name": "fjl-error-throwing",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "description": "Error throwing helpers for quickly throwing errors when a value doesn't match a type.",
   "main": "dist/cjs/fjl.errorThrowing.js",
   "module": "dist/es6-module/fjl.errorThrowing.js",

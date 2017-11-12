@@ -28,7 +28,7 @@
     /**
      * Checks if `type` is a string or a function (constructor or constructor name)
      * @function module:fjlErrorThrowing.isCheckableType
-     * @param type {Type|String|Function}
+     * @param type {TypeRef}
      * @returns {Boolean}
      */
     isCheckableType = exports.isCheckableType = function isCheckableType(type) {
@@ -40,8 +40,8 @@
      * Throws an error if `type` is not a checkable type (can't be checked by the `TypeChecker` type)
      * @function module:fjlErrorThrowing.errorIfNotCheckableType
      * @param contextName {String}
-     * @param type {Type|String|Function}
-     * @returns {Type} - Type passed in if `type` is checkable
+     * @param type {TypeRef}
+     * @returns {TypeRef} - Type passed in if `type` is checkable
      */
     errorIfNotCheckableType = exports.errorIfNotCheckableType = function errorIfNotCheckableType(contextName, type) {
         if (!isCheckableType(type)) {
@@ -171,7 +171,7 @@
      * @param type {String|Function} - Type's name or type itself.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
-     * @param value {Any}
+     * @param value {*}
      * @param [messageSuffix=null] {String} - Optional.
      * @returns {undefined}
      * @uncurried
@@ -188,7 +188,7 @@
      * @param types {Array} - Array of one or more types or type names themselves.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
-     * @param value {Any}
+     * @param value {*}
      * @returns {undefined}
      * @uncurried
      */
@@ -214,7 +214,7 @@
      * @param type {String|Function} - Type's name or type itself.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
-     * @param value {Any}
+     * @param value {*}
      * @param [messageSuffix=null] {String} - Optional.
      * @returns {undefined}
      * @curried
@@ -229,7 +229,7 @@
      * @param types {Array} - Array of one or more types or type names themselves.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
-     * @param value {Any}
+     * @param value {*}
      * @returns {undefined}
      * @curried
      */

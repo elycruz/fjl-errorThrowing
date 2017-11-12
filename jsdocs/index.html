@@ -45,16 +45,18 @@
     <section>
         <article><h1>fjl-errorThrowing</h1><p>Error throwing helpers.  In particular for when a type doesn't match an expected type (or one of one or more expected types).</p>
 <h2>Install</h2><p><code>npm install fjl-error-throwing</code></p>
-<h2>Methods</h2><h3><code>errorIfNotType&lt;type, contextName, valueName, value, messageSuffix=null&gt; {Undefined}</code> -</h3><pre class="prettyprint source"><code>Curried.  Throws an error when your `value` doesn't match given `type`.</code></pre><h3><code>errorIfNotTypes&lt;types, contextName, valueName, value&gt; : {Undefined}</code> -</h3><pre class="prettyprint source"><code>Curried.  Throws an error when your `value` doesn't match one of the given `types` passed in.</code></pre><h3><code>getErrorIfNotTypeThrower&lt;messageTmplFunction, typeChecker&gt; : errorIfNotType</code> - Gives an <code>errorIfNotType</code></h3><pre class="prettyprint source"><code>function (curried version) that uses the passed message template function to generate the error message string.</code></pre><h3><code>getErrorIfNotTypesThrower&lt;messageTmplFunction, typeChecker&gt; : errorIfNotTypes</code> - Gives an <code>errorIfNotTypes</code></h3><pre class="prettyprint source"><code>function (curried version) that uses the passed message template function to generate the error message string.</code></pre><p><strong>Note</strong>: For un-curried versions of the methods above access them with a trailing '$' character;<br>    Example <code>errorIfNotType$(...)</code></p>
-<h2>Docs</h2><p>More extensive docs can be found in './jsdocs' folder.
+<h2>Methods</h2><p><strong>Note</strong>: For un-curried versions of the methods below access them with a trailing '$' character;
+    Example <code>errorIfNotType$(...)</code> etc..</p>
+<p><strong>Note</strong>: For more extensive docs see jsdocs located at './jsdocs' (in the repo (currently))</p>
+<h3><code>errorIfNotType&lt;Type, contextName, valueName, value, messageSuffix=null&gt; {Undefined}</code> -</h3><pre class="prettyprint source"><code>Curried.  Throws an error when your `value` doesn't match given `type`.</code></pre><h3><code>errorIfNotTypes&lt;Types, contextName, valueName, value&gt; : {Undefined}</code> -</h3><pre class="prettyprint source"><code>Curried.  Throws an error when your `value` doesn't match one of the given `types` passed in.</code></pre><h3><code>getErrorIfNotTypeThrower&lt;messageTmplFunction, typeChecker = defaultTypeChecker&gt; : errorIfNotType</code> - Gives an <code>errorIfNotType</code></h3><pre class="prettyprint source"><code>function (curried version) that uses the passed message template function to generate the error message string.</code></pre><h3><code>getErrorIfNotTypesThrower&lt;messageTmplFunction, typeChecker = defaultTypeChecker&gt; : errorIfNotTypes</code> - Gives an <code>errorIfNotTypes</code></h3><pre class="prettyprint source"><code>function (curried version) that uses the passed message template function to generate the error message string.</code></pre><h2>Docs</h2><p>More extensive docs can be found in './jsdocs' folder.
 Docs will go up somewhere later. @todo</p>
 <h3>Types:</h3><pre class="prettyprint source"><code>TemplateContext     {Object&lt;value, valueName, expectedTypeName, foundTypeName, messageSuffix>}
 Type                {String|Function} - Constructor name or constructor itself.
 TypesArray          {Array&lt;Type>}
 TypeChecker         {Function&lt;Type, Any>}
 ErrorMessageCall    {Function&lt;TemplateContext>}
-ErrorIfNotType
-ErrorIfNotTypes</code></pre><h3>Usage</h3><p>@todo add more extensive usage examples</p>
+ErrorIfNotType      {Function&lt;Type, contextName, valueName, value>:Undefined}
+ErrorIfNotTypes     {Function&lt;TypesArray, contextName, valueName, value>:Undefined}</code></pre><h3>Usage</h3><p>@todo add more extensive usage examples</p>
 <pre class="prettyprint source"><code>import {
     getErrorIfNotTypeThrower, // For passing your own error string renderer
     getErrorIfNotTypesThrower, // For passing your own error string renderer
@@ -62,19 +64,18 @@ ErrorIfNotTypes</code></pre><h3>Usage</h3><p>@todo add more extensive usage exam
     errorIfNotTypes
 } from 'fjl-errorThrowing';
 
-const errorIfNotFunction = (valueName, value) => 
-    errorIfNotType('', valueName, value, Function);
+const errorIfNotFunction = errorIfNotType(Function); // curried so makes for useful usage
 
 function someFunc (fn) {
-    errorIfNotFunction(fn); // Will throw well detailed error if passed in value is not a Function
+    errorIfNotFunction('someFunc', 'fn', fn); // Will throw well detailed error when `value` is not a function
     // Do something here ...
 }
 
 someFunc(_ => 1 + 1);  // No error here
 someFunc(99);   // Error here type doesn't match expected type.</code></pre><h2>Tests</h2><p><code>npm test</code></p>
 <h2>Todos:</h2><ul>
-<li>[ ] - Update jsdoc blocks to show proper method signatures.</li>
-<li>[ ] - Add doc blocks to all methods/functions even ones not specified in api.</li>
+<li>[X] - Update jsdoc blocks to show proper method signatures.</li>
+<li>[X] - Add doc blocks to all methods/functions even ones not specified in api.</li>
 </ul></article>
     </section>
 
@@ -92,7 +93,7 @@ someFunc(99);   // Error here type doesn't match expected type.</code></pre><h2>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Nov 11 2017 01:17:57 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 12 2017 16:11:31 GMT-0500 (Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

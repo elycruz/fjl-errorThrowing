@@ -16,7 +16,7 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
     /**
      * Checks if `type` is a string or a function (constructor or constructor name)
      * @function module:fjlErrorThrowing.isCheckableType
-     * @param type {Type|String|Function}
+     * @param type {TypeRef}
      * @returns {Boolean}
      */
     isCheckableType = exports.isCheckableType = type => (0, _fjl.isString)(type) || (0, _fjl.isFunction)(type),
@@ -26,8 +26,8 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
      * Throws an error if `type` is not a checkable type (can't be checked by the `TypeChecker` type)
      * @function module:fjlErrorThrowing.errorIfNotCheckableType
      * @param contextName {String}
-     * @param type {Type|String|Function}
-     * @returns {Type} - Type passed in if `type` is checkable
+     * @param type {TypeRef}
+     * @returns {TypeRef} - Type passed in if `type` is checkable
      */
     errorIfNotCheckableType = exports.errorIfNotCheckableType = (contextName, type) => {
         if (!isCheckableType(type)) {
@@ -136,7 +136,7 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
      * @param type {String|Function} - Type's name or type itself.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
-     * @param value {Any}
+     * @param value {*}
      * @param [messageSuffix=null] {String} - Optional.
      * @returns {undefined}
      * @uncurried
@@ -153,7 +153,7 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
      * @param types {Array} - Array of one or more types or type names themselves.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
-     * @param value {Any}
+     * @param value {*}
      * @returns {undefined}
      * @uncurried
      */
@@ -179,7 +179,7 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
      * @param type {String|Function} - Type's name or type itself.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
-     * @param value {Any}
+     * @param value {*}
      * @param [messageSuffix=null] {String} - Optional.
      * @returns {undefined}
      * @curried
@@ -194,7 +194,7 @@ define(['exports', './generated/version', 'fjl'], function (exports, _version, _
      * @param types {Array} - Array of one or more types or type names themselves.
      * @param contextName {String} - Name of context to attribute errors if thrown.
      * @param valueName {String} - String rep of value.
-     * @param value {Any}
+     * @param value {*}
      * @returns {undefined}
      * @curried
      */
