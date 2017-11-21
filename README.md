@@ -2,6 +2,11 @@
 
 Error throwing helpers.  In particular for when a type doesn't match an expected type (or one of one or more expected types).
 
+## Stars of the show:
+`errorIfNotType` and `errorIfNotTypes` (and their variants (
+uncurried versions (same function names though with trailing '$'
+ character))).
+
 ## Install 
 `npm install fjl-error-throwing`
 
@@ -62,7 +67,3 @@ someFunc(99);   // Error here type doesn't match expected type.
 
 ## Tests
 `npm test`
-
-## Todos:
-- [X] - Update jsdoc blocks to show proper method signatures.
-- [X] - Add doc blocks to all methods/functions even ones not specified in api.
