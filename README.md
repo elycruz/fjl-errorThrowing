@@ -1,4 +1,4 @@
-# fjl-errorThrowing
+# fjl-error-throwing
 
 Error throwing helpers.  In particular for when a type doesn't match an expected type (or one of one or more expected types).
 
@@ -6,6 +6,10 @@ Error throwing helpers.  In particular for when a type doesn't match an expected
 `errorIfNotType` and `errorIfNotTypes` (and their variants (
 uncurried versions (same function names though with trailing '$'
  character))).
+ 
+## Docs
+See inline 'readme' docs below or go to the jsdocs page:
+https://functional-jslib.github.io/fjl-error-throwing/
 
 ## Install 
 `npm install fjl-error-throwing`
@@ -65,5 +69,12 @@ someFunc(_ => 1 + 1);  // No error here
 someFunc(99);   // Error here type doesn't match expected type.
 ```
 
-## Tests
-`npm test`
+## Development
+1.  `npm install`
+2.  Look at node scripts in package.json.
+
+## Testing
+1. `npm test` (after `npm install`).
+
+## License
+GNU v2, v3

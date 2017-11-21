@@ -8,8 +8,9 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "gulp clean && gulp build",
+    "build": "gulp clean && gulp build && npm run test-builds",
     "build-docs": "gulp jsdoc",
+    "test-builds": "mocha tests/**/*-test-*.js --plugins babel-plugin-add-module-exports --require babel-register",
     "test": "mocha tests/*-test.js --plugins babel-plugin-add-module-exports --require babel-register"
   },
   "keywords": [
