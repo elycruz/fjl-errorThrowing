@@ -1,6 +1,6 @@
 {
   "name": "fjl-error-throwing",
-  "version": "0.7.5",
+  "version": "0.7.6",
   "description": "Error throwing helpers for quickly throwing errors when a value doesn't match a type.",
   "main": "dist/cjs/fjl.errorThrowing.js",
   "module": "dist/es6-module/fjl.errorThrowing.js",
@@ -8,6 +8,7 @@
     "test": "tests"
   },
   "scripts": {
+    "pre-publish": "npm test && npm run build && npm run build-docs",
     "build": "gulp clean && gulp build && npm run test-builds",
     "build-docs": "gulp jsdoc",
     "test-builds": "mocha tests/**/*-test-*.js --plugins babel-plugin-add-module-exports --require babel-register",
@@ -19,7 +20,7 @@
     "error-handling"
   ],
   "author": "Ely De La Cruz <elycruz@elycruz.com>",
-  "license": "ISC",
+  "license": "BSD",
   "devDependencies": {
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-external-helpers": "^6.22.0",
