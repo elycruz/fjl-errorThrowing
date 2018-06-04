@@ -93,7 +93,7 @@ export const
      */
     errorIfNotCheckableType = (contextName, type) => {
         if (!isCheckableType(type)) {
-            throw new Error (`${contextName} expects Types to be checked against to be of type \`String\` or \`Function\`.` +
+            throw new Error (`${contextName} expects \`type\` to be of type \`String\` or \`Function\`.` +
                 `  Type received \`${typeOf(type)}\`.  Value \`${type}\`.`);
         }
         return type;
@@ -162,7 +162,8 @@ export const
      * @param typeChecker {Function|TypeChecker} - Function<Type, value>:Boolean
      * @returns {Function|ErrorIfNotType}
      */
-    getErrorIfNotTypeThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) => (ValueType, contextName, valueName, value, messageSuffix = null) => {
+    getErrorIfNotTypeThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) =>
+      (ValueType, contextName, valueName, value, messageSuffix = null) => {
         const expectedTypeName = getTypeName(ValueType),
             foundTypeName = typeOf(value);
         if (typeChecker(ValueType, value)) { return; } // Value matches type
@@ -178,18 +179,19 @@ export const
      * @param typeChecker {Function|TypeChecker} - Function<Type, value>:Boolean
      * @returns {Function|ErrorIfNotTypes}
      */
-    getErrorIfNotTypesThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) => (valueTypes, contextName, valueName, value) => {
-        const expectedTypeNames = valueTypes.map(getTypeName),
-            matchFound = valueTypes.some(ValueType => typeChecker(ValueType, value)),
-            foundTypeName = typeOf(value);
-        if (matchFound) { return; }
-        throw new Error(
-            errorMessageCall({
-                contextName, valueName, value,
-                expectedTypeName: expectedTypeNames, foundTypeName
-            })
-        );
-    },
+    getErrorIfNotTypesThrower$ = (errorMessageCall, typeChecker = defaultTypeChecker$) =>
+      (valueTypes, contextName, valueName, value) => {
+            const expectedTypeNames = valueTypes.map(getTypeName),
+                matchFound = valueTypes.some(ValueType => typeChecker(ValueType, value)),
+                foundTypeName = typeOf(value);
+            if (matchFound) { return; }
+            throw new Error(
+                errorMessageCall({
+                    contextName, valueName, value,
+                    expectedTypeName: expectedTypeNames, foundTypeName
+                })
+            );
+        },
 
     /**
      * Checks that passed in `value` is of given `type`.  Throws an error if value
@@ -264,7 +266,7 @@ export const
      *   Also throws informative error messages containing the value types, names, expected type names,
      *   etc.
      * @function module:fjlErrorThrowing.getErrorIfNotTypeThrower
-     * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
+     * @param errorMessageCall {Function|ErrorMessageCall} - Template function (takes an info-object and returns a printed string).
      * @returns {Function|ErrorIfNotType} - Returns a function with the same signature as `errorIfNotType` though curried.
      */
     getErrorIfNotTypeThrower = errorMessageCall => curry(getErrorIfNotTypeThrower$(errorMessageCall)),
@@ -274,7 +276,7 @@ export const
      *   The returned function is used in cases where informative error messages
      *   containing the value types, names, expected type names, are-required/should-be-used etc.
      * @function module:fjlErrorThrowing.getErrorIfNotTypesThrower
-     * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
+     * @param errorMessageCall {Function|ErrorMessageCall} - Template function (takes an info-object and returns a printed string).
      * @returns {Function|ErrorIfNotTypes} - Returns a function with the same signature as `errorIfNotTypes` though curried.
      */
     getErrorIfNotTypesThrower = errorMessageCall => curry4(getErrorIfNotTypesThrower$(errorMessageCall))

@@ -45,7 +45,7 @@
      */
     errorIfNotCheckableType = exports.errorIfNotCheckableType = function errorIfNotCheckableType(contextName, type) {
         if (!isCheckableType(type)) {
-            throw new Error(contextName + ' expects Types to be checked against to be of type `String` or `Function`.' + ('  Type received `' + (0, _fjl.typeOf)(type) + '`.  Value `' + type + '`.'));
+            throw new Error(contextName + ' expects `type` to be of type `String` or `Function`.' + ('  Type received `' + (0, _fjl.typeOf)(type) + '`.  Value `' + type + '`.'));
         }
         return type;
     },
@@ -241,7 +241,7 @@
      *   Also throws informative error messages containing the value types, names, expected type names,
      *   etc.
      * @function module:fjlErrorThrowing.getErrorIfNotTypeThrower
-     * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
+     * @param errorMessageCall {Function|ErrorMessageCall} - Template function (takes an info-object and returns a printed string).
      * @returns {Function|ErrorIfNotType} - Returns a function with the same signature as `errorIfNotType` though curried.
      */
     getErrorIfNotTypeThrower = exports.getErrorIfNotTypeThrower = function getErrorIfNotTypeThrower(errorMessageCall) {
@@ -254,7 +254,7 @@
      *   The returned function is used in cases where informative error messages
      *   containing the value types, names, expected type names, are-required/should-be-used etc.
      * @function module:fjlErrorThrowing.getErrorIfNotTypesThrower
-     * @param errorMessageCall {Function|errorMessageCall} - Template function (takes an info-object and returns a printed string).
+     * @param errorMessageCall {Function|ErrorMessageCall} - Template function (takes an info-object and returns a printed string).
      * @returns {Function|ErrorIfNotTypes} - Returns a function with the same signature as `errorIfNotTypes` though curried.
      */
     getErrorIfNotTypesThrower = exports.getErrorIfNotTypesThrower = function getErrorIfNotTypesThrower(errorMessageCall) {
