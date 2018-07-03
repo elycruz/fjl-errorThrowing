@@ -1355,9 +1355,9 @@ first-chunk-stream@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/first-chunk-stream/-/first-chunk-stream-1.0.0.tgz#59bfb50cd905f60d7c394cd3d9acaab4e6ad934e"
 
-fjl@0.19.0:
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/fjl/-/fjl-0.19.0.tgz#aeec6eb469a12f00c1204af2ab5fbd1f94a4e6c5"
+fjl@0.25.2:
+  version "0.25.2"
+  resolved "https://registry.yarnpkg.com/fjl/-/fjl-0.25.2.tgz#9afc53e0908d2759fa0412517c55efb168667e7a"
 
 flagged-respawn@^1.0.0:
   version "1.0.0"
