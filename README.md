@@ -1,4 +1,6 @@
 # fjl-error-throwing
+**Deprecated** - This library is more thoroughly tested and is included 
+as part of 'functional-jslib/fjl'.  It is recommended you use that version of the "error-throwing" functions instead.
 
 Error throwing helpers.  In particular for when a type doesn't match an expected type (or one of one or more expected types).
 
